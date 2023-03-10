@@ -1,7 +1,8 @@
 FROM node:19.7.0
 WORKDIR /APP
-COPY package.json .
+COPY package*.json ./
 RUN npm install
-COPY . ./
-EXPOSE 8000
+COPY . .
+ENV PORT 8000
+EXPOSE $PORT
 CMD ["npm", "run", "dev"]
