@@ -4,8 +4,3 @@ services:
     build: .
     ports:
       - "8000:8000"
-    volumes:
-      - ./:/APP:ro
-      - /APP/node_modules
-    env_file:
-      - ./.env

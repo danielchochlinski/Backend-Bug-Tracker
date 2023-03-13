@@ -1,0 +1,10 @@
+version: "20.10.23"
+services:
+  bug-tracker:
+    build:
+      context: .
+      args:
+        NODE_ENV: production
+    environment:
+      - NODE_ENV=staging
+    command: node src/server.ts  
