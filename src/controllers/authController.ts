@@ -18,6 +18,7 @@ const registerUser = async (req: Request, res: Response) => {
         user: newUser,
       },
     });
+    console.log(newUser);
   } catch (err) {
     res.status(400).json({
       status: "fail",

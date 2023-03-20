@@ -6,7 +6,6 @@ const userSchema = new mongoose.Schema({
   },
   surname: {
     type: String,
-    unique: true,
     requried: [true, "User must have a surname"],
   },
   email: {
