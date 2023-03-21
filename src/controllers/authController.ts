@@ -18,7 +18,6 @@ const registerUser = async (req: Request, res: Response) => {
         user: newUser,
       },
     });
-    console.log(newUser);
   } catch (err) {
     res.status(400).json({
       status: "fail",
@@ -53,7 +52,24 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
+const getUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await User.find();
+    res.status(200).json({
+      status: "sucess",
+      data: {
+        data: users,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "failed",
+    });
+    console.log(err);
+  }
+};
 module.exports = {
   registerUser,
   loginUser,
+  getUsers,
 };

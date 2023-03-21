@@ -12,14 +12,13 @@ services:
       - ./.env
     environment:
       - NODE_ENV=development
-      - MONGO_USER=bug-tracker
-      - MONGO_PASSWORD=daniel1
-      - MONGO_URL_COMPASS=mongodb://localhost:27017
+      - MONGO_USER=root
+      - MONGO_PASSWORD=password123
     command: npm run dev
 
   mongo:
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=bug-tracker
-      - MONGO_INITDB_ROOT_PASSWORD=daniel1
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password123
     ports:
-      - "27017:27017"
+      - "27018:27017"
