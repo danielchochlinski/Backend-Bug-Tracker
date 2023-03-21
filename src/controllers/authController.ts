@@ -1,21 +1,38 @@
+import { Request, Response, NextFunction } from "express";
 const User = require("../models/userModel");
-import { Request, Response, NextFunction, Router } from "express";
 const bcrypt = require("bcryptjs");
-
+const jwt = require("jsonwebtoken");
 const registerUser = async (req: Request, res: Response) => {
   const { name, surname, email, password } = req.body;
+
   try {
+    const userExist = await User.findOne({ email });
+    if (userExist) {
+      res.status(400).json({
+        status: "failed",
+        message: "User already exisits",
+      });
+      return;
+    }
+
     const hashpassword = await bcrypt.hash(password, 12);
+
     const newUser = await User.create({
       name,
       surname,
       email,
       password: hashpassword,
     });
+    const responseUser = {
+      ...newUser,
+      id: newUser.id,
+      token: generateToken(newUser._id),
+    };
+    console.log(responseUser);
     res.status(201).json({
       status: "success",
       data: {
-        user: newUser,
+        user: responseUser,
       },
     });
   } catch (err) {
@@ -34,6 +51,7 @@ const loginUser = async (req: Request, res: Response) => {
         status: "failed",
         message: "User not found",
       });
+
     const correctPassword = await bcrypt.compare(password, user.password);
 
     if (correctPassword) {
@@ -67,6 +85,12 @@ const getUsers = async (req: Request, res: Response) => {
     });
     console.log(err);
   }
+};
+//Generate GWT
+const generateToken = (id: string) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
 };
 module.exports = {
   registerUser,
