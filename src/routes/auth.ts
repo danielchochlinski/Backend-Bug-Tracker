@@ -1,16 +1,15 @@
 import { Request, Response, NextFunction, Router } from "express";
-const {
-  registerUser,
-  loginUser,
-  getUsers,
-} = require("../controllers/authController");
+import { registerUser, loginUser, getUsers, getUser } from "../controllers/authController";
+// import { auth } from "../middleware/authMiddleware";
 // const router = require("express").Router();
 const router = Router();
 
 router.post("/register", registerUser);
-// const { name, surname, email, password } = req.body;);
+
 router.post("/login", loginUser);
 
 router.get("/getUsers", getUsers);
 
-module.exports = router;
+router.get("/me", getUser);
+
+export default router;

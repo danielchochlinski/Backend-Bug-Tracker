@@ -1,18 +1,20 @@
 import { Request, Response, NextFunction } from "express";
-const User = require("../models/userModel");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const registerUser = async (req: Request, res: Response) => {
+import { User } from "../models/userModel";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+export const registerUser = async (req: Request, res: Response) => {
   const { name, surname, email, password } = req.body;
 
   try {
     const userExist = await User.findOne({ email });
     if (userExist) {
-      res.status(400).json({
-        status: "failed",
-        message: "User already exisits",
-      });
-      return;
+      res.status(400);
+      // .json({
+      //   status: "failed",
+      //   message: "User already exisits",
+      // });
+      // return;
+      throw new Error("User already exists");
     }
 
     const hashpassword = await bcrypt.hash(password, 12);
@@ -23,18 +25,16 @@ const registerUser = async (req: Request, res: Response) => {
       email,
       password: hashpassword,
     });
-    const responseUser = {
-      ...newUser,
-      id: newUser.id,
-      token: generateToken(newUser._id),
-    };
-    console.log(responseUser);
-    res.status(201).json({
-      status: "success",
-      data: {
-        user: responseUser,
-      },
-    });
+
+    if (newUser) {
+      res.status(201).json({
+        status: "success",
+        data: {
+          user: newUser,
+          token: generateToken(newUser._id),
+        },
+      });
+    }
   } catch (err) {
     res.status(400).json({
       status: "fail",
@@ -42,22 +42,21 @@ const registerUser = async (req: Request, res: Response) => {
   }
 };
 
-const loginUser = async (req: Request, res: Response) => {
+export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
+
     if (!user)
       res.status(400).json({
         status: "failed",
         message: "User not found",
       });
 
-    const correctPassword = await bcrypt.compare(password, user.password);
-
-    if (correctPassword) {
+    if (user && (await bcrypt.compare(password, user.password))) {
       res.status(200).json({
         status: "success",
-        data: { user },
+        data: { user, token: generateToken(user._id) },
       });
     } else {
       res.status(400).json({
@@ -70,14 +69,23 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-const getUsers = async (req: Request, res: Response) => {
+export const getUser = async (req: any, res: Response) => {
+  try {
+    res.status(200).json({
+      status: "success",
+      data: req.user,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getUsers = async (req: Request, res: Response) => {
   try {
     const users = await User.find();
     res.status(200).json({
       status: "sucess",
-      data: {
-        data: users,
-      },
+      data: { users: users },
     });
   } catch (err) {
     res.status(400).json({
@@ -88,12 +96,7 @@ const getUsers = async (req: Request, res: Response) => {
 };
 //Generate GWT
 const generateToken = (id: string) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+  return jwt.sign({ id }, process.env.JWT_SECRET || "", {
     expiresIn: "30d",
   });
-};
-module.exports = {
-  registerUser,
-  loginUser,
-  getUsers,
 };

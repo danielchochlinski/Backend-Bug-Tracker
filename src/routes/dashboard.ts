@@ -3,4 +3,4 @@ const router = Router();
 router.get("/dashboard", (req: Request, res: Response) => {
   res.send("dashboard");
 });
-module.exports = router;
+export default router;
