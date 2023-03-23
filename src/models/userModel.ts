@@ -18,6 +18,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     requried: [true, "User must have a password"],
   },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
+  emailToken: {
+    type: String || null,
+  },
 });
 
 export const User = mongoose.model<UserModelInterface>("User", userSchema);

@@ -1,7 +1,11 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/userModel";
 import { Request, Response, NextFunction } from "express";
+// import type { JwtPayload } from "jsonwebtoken";
 
+// interface TokenType {
+//   id: string;
+// }
 export const auth = async (req: any, res: Response, next: NextFunction) => {
   let token;
 
@@ -13,7 +17,6 @@ export const auth = async (req: any, res: Response, next: NextFunction) => {
         token,
         process.env.ACCESS_TOKEN_SECRET || ""
       );
-
       req.user = await User.findById(decodedToken.id).select("-password");
 
       next();

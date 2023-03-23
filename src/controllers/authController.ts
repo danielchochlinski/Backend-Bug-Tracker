@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { User } from "../models/userModel";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { sendVerificationMail } from "../utilities/sendVerificationMail";
+
 export const registerUser = async (req: Request, res: Response) => {
   const { name, surname, email, password } = req.body;
 
@@ -24,9 +26,11 @@ export const registerUser = async (req: Request, res: Response) => {
       surname,
       email,
       password: hashpassword,
+      emailToken: crypto.randomUUID(),
     });
 
     if (newUser) {
+      sendVerificationMail(newUser);
       res.status(201).json({
         status: "success",
         data: {
@@ -52,6 +56,11 @@ export const loginUser = async (req: Request, res: Response) => {
         status: "failed",
         message: "User not found",
       });
+    if (user && user.verified === false)
+      res.status(401).json({
+        status: "failed",
+        message: "Please validate the email",
+      });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       res.status(200).json({
@@ -69,34 +78,46 @@ export const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getUser = async (req: any, res: Response) => {
-  try {
-    res.status(200).json({
-      status: "success",
-      data: req.user,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const getUsers = async (req: Request, res: Response) => {
-  try {
-    const users = await User.find();
-    res.status(200).json({
-      status: "sucess",
-      data: { users: users },
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "failed",
-    });
-    console.log(err);
-  }
-};
 //Generate GWT
 const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || "", {
     expiresIn: "30d",
   });
+};
+
+// POST
+// 
+export const verifyEmail = async (req: Request, res: Response) => {
+  try {
+    const emailToken = req.body.emailToken;
+
+    if (!emailToken)
+      res.status(400).json({
+        status: "Failed",
+        message: "EmailToken not found",
+      });
+
+    const update = {
+      verified: true,
+      emailToken: null,
+    };
+
+    const user = await User.findOneAndUpdate(emailToken, update, {
+      new: true,
+    });
+    if (user) {
+      res.status(200).json({
+        status: "Success",
+        data: { user },
+      });
+    } else {
+      res.status(404).json({
+        status: "Failed",
+        message: "Verification failed invalid token",
+      });
+    }
+  } catch (err: any) {
+    console.log(err);
+    res.status(500).json(err.message);
+  }
 };

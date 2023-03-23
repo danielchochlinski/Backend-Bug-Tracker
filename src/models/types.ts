@@ -4,4 +4,6 @@ export interface UserModelInterface {
   email: string;
   password: string;
   _id?: string;
+  verified: boolean;
+  emailToken: string | null;
 }
