@@ -1,14 +1,13 @@
-const express = require("express");
-require("dotenv").config();
-const bodyParser = require("body-parser");
-
+import express from "express";
+import dotenv from "dotenv";
+dotenv.config();
+import bodyParser from "body-parser";
 const app = express();
 const port = process.env.PORT;
-
-const authRoute = require("./routes/auth");
-const dashboardRoute = require("./routes/dashboard");
-const connectDB = require("./config/db");
-
+import { auth } from "./middleware/authMiddleware";
+import authRoute from "./routes/auth";
+import dashboardRoute from "./routes/dashboard";
+import { connectDB } from "./config/db";
 connectDB();
 app.use(bodyParser.json());
 

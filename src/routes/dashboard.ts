@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction, Router } from "express";
+import { getUsers, getUser } from "../controllers/dashboardController";
+import { auth } from "../middleware/authMiddleware";
 const router = Router();
-router.get("/dashboard", (req: Request, res: Response) => {
-  res.send("dashboard");
-});
-module.exports = router;
+
+router.get("/getUsers", getUsers);
+
+router.get("/me", auth, getUser);
+
+export default router;

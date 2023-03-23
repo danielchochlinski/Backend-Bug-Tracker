@@ -11,7 +11,7 @@ const {
 const test = `mongodb://bug-tracker:daniel1@mongo:27017/?authSource=admin`;
 const MONGO_URL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`;
 
-const connectDB = async () => {
+export const connectDB = async () => {
   try {
     const connect = await mongoose.connect(MONGO_URL);
     console.log(`mongo db connected: ${connect.connection.host}`);
@@ -20,4 +20,4 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
-module.exports = connectDB;
+// module.exports = connectDB;
