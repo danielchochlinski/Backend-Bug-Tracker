@@ -10,13 +10,10 @@ export const registerUser = async (req: Request, res: Response) => {
   try {
     const userExist = await User.findOne({ email });
     if (userExist) {
-      res.status(400);
-      // .json({
-      //   status: "failed",
-      //   message: "User already exisits",
-      // });
-      // return;
-      throw new Error("User already exists");
+      return res.status(400).json({
+        status: "Failed",
+        message: "User already exisits",
+      });
     }
 
     const hashpassword = await bcrypt.hash(password, 12);
@@ -31,8 +28,8 @@ export const registerUser = async (req: Request, res: Response) => {
 
     if (newUser) {
       sendVerificationMail(newUser);
-      res.status(201).json({
-        status: "success",
+      return res.status(201).json({
+        status: "Success",
         data: {
           user: newUser,
           token: generateToken(newUser._id),
@@ -40,7 +37,7 @@ export const registerUser = async (req: Request, res: Response) => {
       });
     }
   } catch (err) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "fail",
     });
   }
@@ -52,24 +49,24 @@ export const loginUser = async (req: Request, res: Response) => {
     const user = await User.findOne({ email });
 
     if (!user)
-      res.status(400).json({
-        status: "failed",
+      return res.status(400).json({
+        status: "Failed",
         message: "User not found",
       });
     if (user && user.verified === false)
-      res.status(401).json({
+      return res.status(401).json({
         status: "failed",
         message: "Please validate the email",
       });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       res.status(200).json({
-        status: "success",
+        status: "Success",
         data: { user, token: generateToken(user._id) },
       });
     } else {
-      res.status(400).json({
-        status: "failed",
+      return res.status(400).json({
+        status: "Failed",
         message: "login information incorrect",
       });
     }
@@ -86,7 +83,7 @@ const generateToken = (id: string) => {
 };
 
 // POST
-// 
+//
 export const verifyEmail = async (req: Request, res: Response) => {
   try {
     const emailToken = req.body.emailToken;
@@ -106,18 +103,18 @@ export const verifyEmail = async (req: Request, res: Response) => {
       new: true,
     });
     if (user) {
-      res.status(200).json({
+      return res.status(200).json({
         status: "Success",
         data: { user },
       });
     } else {
-      res.status(404).json({
+      return res.status(404).json({
         status: "Failed",
         message: "Verification failed invalid token",
       });
     }
   } catch (err: any) {
     console.log(err);
-    res.status(500).json(err.message);
+    return res.status(500).json(err.message);
   }
 };
