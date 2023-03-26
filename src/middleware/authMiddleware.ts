@@ -17,15 +17,14 @@ export const auth = async (req: any, res: Response, next: NextFunction) => {
         token,
         process.env.ACCESS_TOKEN_SECRET || ""
       );
-      req.user = await User.findById(decodedToken.id).select("-password");
+      req.user = await User.findById(decodedToken.id);
 
       next();
     } catch (err) {
-      res.status(401).json({
+      return res.status(401).json({
         status: "failed",
       });
-      console.log(err);
     }
   }
-  if (!token) res.status(401).json({ status: "Not authorized" });
+  if (!token) return res.status(401).json({ status: "Not authorized" });
 };
