@@ -10,7 +10,6 @@ export const getUser = async (req: any, res: Response) => {
     });
   } catch (err) {
     return res.status(400).json({ status: "Failed" });
-    console.log(err);
   }
 };
 
@@ -25,7 +24,6 @@ export const getUsers = async (req: Request, res: Response) => {
     return res.status(400).json({
       status: "Failed",
     });
-    console.log(err);
   }
 };
 
@@ -53,7 +51,7 @@ export const updateUserPassword = async (req: any, res: Response) => {
     const { _id, password } = req.user;
 
     const { oldPassword, newPassword } = req.body;
- 
+
     if (await bcrypt.compare(oldPassword, password)) {
       const hashedPassword = await bcrypt.hash(newPassword, 12);
       const updatedPassword = await User.findByIdAndUpdate(
