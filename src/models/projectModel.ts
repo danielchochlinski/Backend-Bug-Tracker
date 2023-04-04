@@ -6,10 +6,6 @@ import {
 } from "./types";
 import Schema = mongoose.Schema;
 const userProjectSchema = new mongoose.Schema({
-  _id: {
-    type: String,
-    // required: [true, "Must have an ID"],
-  },
   admin: {
     type: Boolean,
     default: false,

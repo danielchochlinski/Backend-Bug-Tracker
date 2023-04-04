@@ -12,6 +12,7 @@
     "skipLibCheck": true,
     "moduleDetection": "force"
   },
+
   "include": ["src", "package.json", "src/server.ts"],
   "exclude": ["src/**/*.test.ts"]
 }
