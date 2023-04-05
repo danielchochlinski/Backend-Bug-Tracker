@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { User } from "../models/userModel";
 import bcrypt from "bcryptjs";
 
-export const getUser = async (req: any, res: Response) => {
+export const getUser = async (req: Request, res: Response) => {
   try {
     return res.status(200).json({
       status: "Success",

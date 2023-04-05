@@ -12,6 +12,7 @@
     "skipLibCheck": true,
     "moduleDetection": "force"
   },
+  "typeRoots": ["@types", "./node_modules/@types"],
 
   "include": ["src", "package.json", "src/server.ts"],
   "exclude": ["src/**/*.test.ts"]

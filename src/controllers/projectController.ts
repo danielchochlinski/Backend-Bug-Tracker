@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Project, UserProject } from "../models/projectModel";
 import mongoose from "mongoose";
-export const createProject = async (req: any, res: Response) => {
+export const createProject = async (req: Request, res: Response) => {
   const { name, priority } = req.body;
   const { _id } = req.user;
   try {
@@ -22,7 +22,7 @@ export const createProject = async (req: any, res: Response) => {
   }
 };
 
-export const getProjects = async (req: any, res: Response) => {
+export const getProjects = async (req: Request, res: Response) => {
   const { _id } = req.user;
   try {
     const projects = await Project.find({ "users._id": _id }).select("-users");
@@ -36,7 +36,7 @@ export const getProjects = async (req: any, res: Response) => {
   }
 };
 
-export const deleteProject = async (req: any, res: Response) => {
+export const deleteProject = async (req: Request, res: Response) => {
   const { _id: userId } = req.user;
   const projectId = req.params.id;
 

@@ -3,15 +3,17 @@ import { Project } from "../../models/projectModel";
 import { User } from "../../models/userModel";
 import { isValid } from "../../extra/validatiors";
 import mongoose from "mongoose";
+import { ProjectUserInterface } from "../../models/types";
 
 export const addUserToProject = async (req: any, res: Response) => {
   const { email, role } = req.body;
-  const { _id: userId } = req.user;
+  //   const { _id: userId } = req.user;
   const projectId = req.params.id;
 
   try {
-    // const projects = await Project.find({ "users._id": userId });
-    const user: any = await User.findOne({ email }).select("-password");
+    const user: any = await User.findOne({
+      email,
+    }).select("-password");
     console.log(user);
     const { _id: searchID } = user;
 
@@ -35,12 +37,25 @@ export const addUserToProject = async (req: any, res: Response) => {
 
       { new: true }
     );
-    console.log({ isInside, userId });
     return res.status(200).json({ isInside });
   } catch (err) {
     return res.status(400).json({
       status: "Failed",
       message: "Ups something went wrong",
     });
+  }
+};
+
+export const updateProjectAuth = async (req: any, res: Response) => {
+  const { email, role } = req.body;
+  //   const { _id: userId } = req.user;
+  const projectId = req.params.id;
+  try {
+    // const project = await Project.aggregate([
+    //   { $unwind: "$users" },
+    //   { $match: { "users._id": searchID } },
+    // ]);
+  } catch (err) {
+    console.log(err);
   }
 };
