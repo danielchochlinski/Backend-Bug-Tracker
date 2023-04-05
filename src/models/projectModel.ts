@@ -5,7 +5,13 @@ import {
   UserModelInterface,
 } from "./types";
 import Schema = mongoose.Schema;
+import { User } from "./userModel";
 const userProjectSchema = new mongoose.Schema({
+  _id: {
+    type: Schema.Types.ObjectId,
+    ref: User,
+    unique: [true, "User already in the project"],
+  },
   admin: {
     type: Boolean,
     default: false,
@@ -13,10 +19,6 @@ const userProjectSchema = new mongoose.Schema({
   role: {
     type: Number,
     default: 0,
-    //Role
-    //0=dev
-    //1=supervisor
-    //2=admin
   },
 });
 const projectSchema = new mongoose.Schema(
