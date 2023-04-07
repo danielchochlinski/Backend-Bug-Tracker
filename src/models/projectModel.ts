@@ -7,11 +7,6 @@ import {
 import Schema = mongoose.Schema;
 import { User } from "./userModel";
 const userProjectSchema = new mongoose.Schema({
-  _id: {
-    type: Schema.Types.ObjectId,
-    ref: User,
-    unique: [true, "User already in the project"],
-  },
   admin: {
     type: Boolean,
     default: false,

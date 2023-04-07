@@ -17,10 +17,11 @@ interface ParamsInterface {
 
 declare global {
   namespace Express {
-    export interface Request {
+    interface Request {
       user: UserModelInterface;
-      params: ParamsInterface;
       body: any;
     }
   }
 }
+
+// Fixes: '<file>' can't be compiled under '--isolatedModules'

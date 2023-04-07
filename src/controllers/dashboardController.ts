@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { User } from "../models/userModel";
 import bcrypt from "bcryptjs";
 
-export const getUser = async (req: Request, res: Response) => {
+export const getUser = async (req: any, res: Response) => {
   try {
     return res.status(200).json({
       status: "Success",
@@ -54,7 +54,7 @@ export const updateUserPassword = async (req: any, res: Response) => {
 
     if (await bcrypt.compare(oldPassword, password)) {
       const hashedPassword = await bcrypt.hash(newPassword, 12);
-      const updatedPassword = await User.findByIdAndUpdate(
+      await User.findByIdAndUpdate(
         _id,
         { password: hashedPassword },
         {
