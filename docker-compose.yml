@@ -17,5 +17,20 @@ services:
     ports:
       - "27017:27017"
 
+  jenkins:
+    image: jenkins/jenkins:2.361.1-lts-jdk11
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins-data:/var/jenkins_home
+    networks:
+      - bug-tracker
+
 volumes:
   mongo-db:
+  jenkins-data:
+
+networks:
+  bug-tracker:
+

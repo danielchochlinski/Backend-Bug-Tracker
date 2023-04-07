@@ -1,0 +1,9 @@
+Jenkins tips.
+    to retrive docker password:
+        -build docker image
+        -docker ps
+        -docker exec -it <id> bash
+        -cd /var/jenkins_home
+        -cat secrets/initialAdminPassword
+
+    http://localhost:8080/

@@ -24,7 +24,6 @@ export const isAdmin = async (
       return res.status(403).json({ message: "User is not an admin" });
     }
 
-    // If the user is an admin, call next() to proceed to the next middleware function
     next();
   } catch (err) {
     console.error(err);
