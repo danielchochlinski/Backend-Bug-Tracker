@@ -4,15 +4,14 @@ dotenv.config();
 import bodyParser from "body-parser";
 const app = express();
 const port = process.env.PORT;
-import { auth } from "./middleware/authMiddleware";
 import authRoute from "./routes/auth";
 import dashboardRoute from "./routes/dashboard";
 import projectRoute from "./routes/projects";
 import testRoute from "./routes/test";
 import { connectDB } from "./config/db";
+
 connectDB();
 app.use(bodyParser.json());
-
 app.use("/api/user", authRoute);
 app.use("/api/dashboard", dashboardRoute);
 app.use("/api/projects", projectRoute);

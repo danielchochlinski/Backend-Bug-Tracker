@@ -29,6 +29,7 @@ declare global {
 
     interface Request {
       user?: User;
+      params: any;
     }
   }
 }

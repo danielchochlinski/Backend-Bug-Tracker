@@ -9,10 +9,16 @@ import { ProjectUserInterface } from "../../models/types";
 // @router      GET /api/projects/admin/add-user/:id
 // @access      Private
 export const addUserToProject = async (req: any, res: Response) => {
+  if (!req.body) {
+    res.status(400).send("Bad request");
+    return;
+  }
   const { email, role } = req.body;
+  //    as { email: string; role: number };
 
   //   const { _id: userId } = req.user;
   const projectId = req.params.id;
+  //   as string;
 
   try {
     const user: any = await User.findOne({
