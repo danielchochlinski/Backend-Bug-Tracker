@@ -7,6 +7,7 @@ import {
 } from "../controllers/projectController";
 import {
   addUserToProject,
+  removeUserFromProject,
   updateProjectAuth,
 } from "../controllers/roleProjectControllers/adminProjectControllers";
 import { isAdmin } from "../middleware/adminMiddleware";
@@ -20,4 +21,5 @@ router.delete("/delete-project/:id", auth, deleteProject);
 //admin
 router.post("/admin/add-user/:id", auth, addUserToProject);
 router.patch("/admin/update-auth/:id", auth, isAdmin, updateProjectAuth);
+router.patch("/admin/remove-user/:id", auth, isAdmin, removeUserFromProject);
 export default router;

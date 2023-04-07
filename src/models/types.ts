@@ -8,10 +8,11 @@ export interface UserModelInterface {
   emailToken: string | null;
 }
 export interface ProjectUserInterface {
-  email?: string;
-  _id?: string;
-  admin?: boolean;
-  role?: number;
+  // email?: string;
+  // _id?: string;
+  // admin?: boolean;
+  // role?: number;
+  [key: string]: string | number | boolean;
 }
 export interface ProjectModelInterface {
   name: string;

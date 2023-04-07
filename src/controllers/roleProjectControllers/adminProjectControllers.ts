@@ -60,10 +60,10 @@ export const addUserToProject = async (req: any, res: Response) => {
 // @router      GET /api/projects/admin/update-auth/:id
 // @access      Private
 export const updateProjectAuth = async (req: any, res: Response) => {
-  const { admin, email, role } = req.body;
+  const { email } = req.body;
   //   const { _id: userId } = req.user;
   const projectId = req.params.id;
-  const update: any = {};
+  const update: ProjectUserInterface = {};
 
   try {
     //check if user exisits
@@ -100,6 +100,42 @@ export const updateProjectAuth = async (req: any, res: Response) => {
       status: "Success",
       message: "Auth has been updated",
       data: projects,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({
+      status: "Failed",
+      message: "Ups something went wrong",
+    });
+  }
+};
+
+export const removeUserFromProject = async (req: any, res: Response) => {
+  const { email } = req.body;
+  const projectId = req.params.id;
+
+  const user: any = await User.findOne({
+    email,
+  }).select("-password");
+
+  if (user.email === req.user.email) {
+    return res
+      .status(400)
+      .json({ status: "Failed", message: "Admin cant remove himself" });
+  }
+  if (!user)
+    return res.status(400).json({ status: "Failed", message: "No such user" });
+
+  try {
+    const project = await Project.findByIdAndUpdate(
+      projectId,
+      { $pull: { users: { _id: user._id } } },
+      { new: true }
+    );
+    res.status(200).json({
+      status: "Success",
+      message: `User ${user._id} has been removed from this project`,
+      data: project,
     });
   } catch (err) {
     console.log(err);
