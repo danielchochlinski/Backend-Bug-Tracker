@@ -1,0 +1,38 @@
+export const users = [
+  {
+    _id: "123",
+    name: "daniel",
+    surname: "chochlinski",
+    email: "daniel@gmail.com",
+    password: "$2a$12$18p45ciqfqcdRWV5zrZvE.GFYZ3TlYvZ/bb.2Zeq7QdICBwaDYsKe",
+    verified: true,
+    emailToken: null,
+  },
+  {
+    _id: "124",
+    name: "john",
+    surname: "firmino",
+    email: "john@gmail.com",
+    password: "$2a$12$18p45ciqfqcdRWV5zrZvE.GFYZ3TlYvZ/bb.2Zeq7QdICBwaDYsKe",
+    verified: true,
+    emailToken: null,
+  },
+  {
+    _id: "125",
+    name: "javel",
+    surname: "dawkins",
+    email: "javel@gmail.com",
+    password: "$2a$12$18p45ciqfqcdRWV5zrZvE.GFYZ3TlYvZ/bb.2Zeq7QdICBwaDYsKe",
+    verified: true,
+    emailToken: null,
+  },
+  {
+    _id: "126",
+    name: "shady",
+    surname: "shahad",
+    email: "shady@gmail.com",
+    password: "$2a$12$18p45ciqfqcdRWV5zrZvE.GFYZ3TlYvZ/bb.2Zeq7QdICBwaDYsKe",
+    verified: true,
+    emailToken: null,
+  },
+];

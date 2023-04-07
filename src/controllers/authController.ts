@@ -113,8 +113,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
         message: "Verification failed invalid token",
       });
     }
-  } catch (err: any) {
+  } catch (err) {
     console.log(err);
-    return res.status(500).json(err.message);
+    return res.status(500).json(err);
   }
 };

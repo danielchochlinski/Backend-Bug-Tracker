@@ -7,3 +7,15 @@ export interface UserModelInterface {
   verified: boolean;
   emailToken: string | null;
 }
+export interface ProjectUserInterface {
+  // email?: string;
+  // _id?: string;
+  // admin?: boolean;
+  // role?: number;
+  [key: string]: string | number | boolean;
+}
+export interface ProjectModelInterface {
+  name: string;
+  priority: number;
+  users: [ProjectUserInterface];
+}
