@@ -9,6 +9,7 @@ import {
   addUserToProject,
   updateProjectAuth,
 } from "../controllers/roleProjectControllers/adminProjectControllers";
+import { isAdmin } from "../middleware/adminMiddleware";
 // import { auth } from "../middleware/authMiddleware";
 
 const router = Router();
@@ -18,5 +19,5 @@ router.delete("/delete-project/:id", auth, deleteProject);
 
 //admin
 router.post("/admin/add-user/:id", auth, addUserToProject);
-router.patch("/admin/update-auth/:id", auth, updateProjectAuth);
+router.patch("/admin/update-auth/:id", auth, isAdmin, updateProjectAuth);
 export default router;

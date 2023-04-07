@@ -90,11 +90,6 @@ export const updateProjectAuth = async (req: any, res: Response) => {
       }
     );
 
-    console.log(user);
-    console.log(projects);
-
-    console.log();
-
     return res.status(200).json({
       status: "Success",
       message: "Auth has been updated",
