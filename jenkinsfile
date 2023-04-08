@@ -1,0 +1,33 @@
+pipeline {
+    agent {
+        node {
+            label "bug-tracker-jenkins"
+        }
+    }
+    triggers {
+        pollscan "*5***"
+    }
+    stages {
+        stage("Build"){
+            steps {
+                echo "Building..."
+                sh ""
+                echo "building stuff..."
+            }
+        }
+         stage("Test"){
+            steps {
+                echo "Testing..."
+                sh ""
+                echo "test stuff..."
+            }
+        }
+         stage("Delivery"){
+            steps {
+                echo "Delivering..."
+                sh ""
+                echo "devlier stuff..."
+            }
+        }
+    }
+}

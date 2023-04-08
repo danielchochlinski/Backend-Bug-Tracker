@@ -6,4 +6,7 @@ Jenkins tips.
         -cd /var/jenkins_home
         -cat secrets/initialAdminPassword
 
+    jenkins password
+        -83876c004adf45f697a83c3fff0587fa
+
     http://localhost:8080/
