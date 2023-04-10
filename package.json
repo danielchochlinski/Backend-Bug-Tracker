@@ -6,7 +6,7 @@
   "module": "commonjs",
   "scripts": {
     "clean": "rimraf ./build",
-    "build": "npm-run-all lint format clean && tsc",
+    "build": "npm-run-all lint format clean && tsc sanity build",
     "start": "ts-node src/server.ts",
     "local": "ts-node src/server.ts",
     "dev": "nodemon src/server.ts -e ts,json --exec 'npm run local'",
