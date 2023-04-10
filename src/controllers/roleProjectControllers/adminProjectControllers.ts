@@ -55,7 +55,7 @@ export const addUserToProject = async (req: any, res: Response) => {
     });
   }
 };
-
+//test
 // @desc        Update auth for user inside project
 // @router      GET /api/projects/admin/update-auth/:id
 // @access      Private
