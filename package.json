@@ -7,14 +7,14 @@
   "scripts": {
     "clean": "rimraf ./build",
     "build": "npm-run-all lint format clean && tsc",
-    "start": "node src/server.ts",
+    "start": "ts-node src/server.ts ",
     "local": "ts-node src/server.ts",
     "dev": "nodemon src/server.ts -e ts,json --exec 'npm run local'",
+    "seed": "ts-node src/seed/seedScript.ts",
     "lint": "eslint src/server.ts",
     "format": "npx prettier --write src/server.ts",
     "format:check": "npx prettier --check src/server.ts",
-    "test": "jest",
-    "seed": "node src/seed/seedScript.ts"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
