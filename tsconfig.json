@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "module": "commonjs",
+    "module": "es6",
+
     "rootDir": "./",
-    "resolveJsonModule": true /* in case you are importing JSON files */,
+    // "resolveJsonModule": true /* in case you are importing JSON files */,
     "outDir": "./build",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
