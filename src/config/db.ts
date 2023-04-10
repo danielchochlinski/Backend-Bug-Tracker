@@ -10,7 +10,7 @@ const MONGO_URL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO
 
 export const connectDB = async () => {
   try {
-    const connect = await mongoose.connect(MONGO_URL);
+    const connect = await mongoose.connect(process.env.MONGO_DB_URL_DEV || "");
     console.log(`mongo db connected: ${connect.connection.host}`);
   } catch (err) {
     console.log(err);
