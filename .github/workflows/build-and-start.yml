@@ -29,6 +29,4 @@ jobs:
 
     steps:
       - name: Start App
-        run: |
-          cd Backend-Bug-Tracker
-          npm run start
+        run:  npm run start
