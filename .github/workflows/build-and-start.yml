@@ -30,6 +30,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          ref: dev
+          path: repo
+
       - name: Start App
         run: npm run start
-        working-directory: ./Backend-Bug-Tracker/dist
+        working-directory: ./repo/Backend-Bug-Tracker/dist
