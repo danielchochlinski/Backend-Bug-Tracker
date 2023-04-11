@@ -18,24 +18,16 @@ jobs:
           node-version: "19.8.1"
 
       - name: Install Dependencies
-        run: npm ci
-        working-directory: ./Backend-Bug-Tracker
+        run: npm install
 
       - name: Build App
         run: npm run build
-        working-directory: ./Backend-Bug-Tracker
 
   start:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2
-        with:
-          ref: dev
-          path: repo
-
       - name: Start App
+        working-directory: /home/runner/work/Backend-Bug-Tracker/Backend-Bug-Tracker
         run: npm run start
-        working-directory: ./repo/Backend-Bug-Tracker/dist
