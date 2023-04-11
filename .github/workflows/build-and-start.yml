@@ -32,4 +32,4 @@ jobs:
     steps:
       - name: Start App
         run: npm run start
-        working-directory: ./Backend-Bug-Tracker
+        working-directory: ./Backend-Bug-Tracker/dist
