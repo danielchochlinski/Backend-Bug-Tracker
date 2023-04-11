@@ -18,13 +18,10 @@ jobs:
           node-version: "19.8.1"
 
       - name: Install Dependencies
-        run: npm install
+        run: cd /home/runner/work/Backend-Bug-Tracker/Backend-Bug-Tracker && npm install
 
       - name: Build App
-        run: npm run build
-      
-      - name: List directory contents
-        run: ls /home/runner/work/Backend-Bug-Tracker/Backend-Bug-Tracker
+        run: cd /home/runner/work/Backend-Bug-Tracker/Backend-Bug-Tracker && npm run build
 
   start:
     needs: build
@@ -32,4 +29,4 @@ jobs:
 
     steps:
       - name: Start App
-        run:  npm run start
+        run:  cd /home/runner/work/Backend-Bug-Tracker/Backend-Bug-Tracker && npm run start
