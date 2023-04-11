@@ -1,32 +1,57 @@
-name: Build and Start App
+# name: Build and Start App
+
+# on:
+#   push:
+#     branches:
+#       - dev
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - uses: actions/checkout@v2
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: "19.8.1"
+
+#       - name: Install Dependencies
+#         run: cd /home/runner/work/Backend-Bug-Tracker/Backend-Bug-Tracker && npm install
+
+#       - name: Build App
+#         run: cd /home/runner/work/Backend-Bug-Tracker/Backend-Bug-Tracker && npm run build
+
+#   start:
+#     needs: build
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Start App
+#         run:  cd /home/runner/work/Backend-Bug-Tracker/Backend-Bug-Tracker && npm run start
+name: Node.js CI
 
 on:
   push:
-    branches:
-      - dev
+    branches: [dev]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
       - uses: actions/checkout@v2
-
-      - name: Setup Node.js
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: "19.8.1"
-
-      - name: Install Dependencies
-        run: cd /home/runner/work/Backend-Bug-Tracker/Backend-Bug-Tracker && npm install
-
-      - name: Build App
-        run: cd /home/runner/work/Backend-Bug-Tracker/Backend-Bug-Tracker && npm run build
-
-  start:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Start App
-        run:  cd /home/runner/work/Backend-Bug-Tracker/Backend-Bug-Tracker && npm run start
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm run buil
+      - run: npm run start
