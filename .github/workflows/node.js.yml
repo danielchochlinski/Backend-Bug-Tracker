@@ -26,7 +26,17 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - env: 
+      PORT: 8000
+      ENV_VAR_2: ${{ secrets.MONGO_DB_URL_DEV }}
+    steps:
+    - name: Step 1
+      run: echo $API_KEY
+    -name: Step 2, install dependancy
     - run: npm ci
-    
+
+    -name: Step 3, build
     - run: npm run build --if-present
+    
+    -name: Step4, run app
     - run: npm run start
