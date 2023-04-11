@@ -19,22 +19,17 @@ jobs:
 
       - name: Install Dependencies
         run: npm ci
+        working-directory: ./Backend-Bug-Tracker
 
       - name: Build App
         run: npm run build
+        working-directory: ./Backend-Bug-Tracker
 
   start:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14.x"
-
-      - name: Install Dependencies
-        run: npm ci
-
       - name: Start App
         run: npm run start
+        working-directory: ./Backend-Bug-Tracker
