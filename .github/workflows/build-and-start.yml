@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          path: './'
+          path: "./"
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -31,4 +31,5 @@ jobs:
 
     steps:
       - name: Start App
+        working-directory: /home/runner/work/Backend-Bug-Tracker/Backend-Bug-Tracker/backend
         run: npm run start
