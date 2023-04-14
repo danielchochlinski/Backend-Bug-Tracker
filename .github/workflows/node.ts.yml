@@ -4,9 +4,9 @@
 name: Node.ts CI
 
 on:
-  push:
+  push_request:
     branches: ["dev"]
-  pull:
+  pull_request:
     branches: ["dev"]
 
 jobs:
