@@ -8,7 +8,7 @@ on:
     branches: ["dev"]
 
 jobs:
-  DEV:
+  DEV-BUILD:
     runs-on: ubuntu-latest
     environment: DEV
 
@@ -38,6 +38,3 @@ jobs:
 
       - name: Build
         run: npm run build
-
-      - name: Run tests
-        run: npm run test

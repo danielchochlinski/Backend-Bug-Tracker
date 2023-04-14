@@ -9,6 +9,7 @@ export default {
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest",
   },
+  preset: "@shelf/jest-mongodb",
 
   testTimeout: 20000,
 };

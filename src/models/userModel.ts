@@ -1,7 +1,6 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 import { UserModelInterface } from "./types";
 const userSchema = new mongoose.Schema({
-  _id: { type: Schema.Types.ObjectId },
   name: {
     type: String,
     requried: [true, "User must have a name!"],
