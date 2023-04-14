@@ -8,7 +8,7 @@ on:
     branches: ["dev"]
 
 jobs:
-  DEV:
+  DEV-BUILD:
     runs-on: ubuntu-latest
     environment: DEV
 
