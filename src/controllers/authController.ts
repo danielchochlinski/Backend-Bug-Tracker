@@ -37,8 +37,8 @@ export const registerUser = async (req: Request, res: Response) => {
       });
     }
   } catch (err) {
-    return res.status(400).json({
-      status: "fail",
+    return res.status(500).json({
+      status: "Failed",
     });
   }
 };
@@ -55,7 +55,7 @@ export const loginUser = async (req: Request, res: Response) => {
       });
     if (user && user.verified === false)
       return res.status(401).json({
-        status: "failed",
+        status: "Failed",
         message: "Please validate the email",
       });
 
