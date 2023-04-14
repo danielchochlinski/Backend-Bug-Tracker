@@ -13,7 +13,7 @@
     "lint": "eslint src/server.ts",
     "format": "npx prettier --write src/server.ts",
     "format:check": "npx prettier --check src/server.ts",
-    "test": "export NODE_ENV=test && jest --forceExit --runInBand",
+    "test": "export NODE_ENV=test && jest --forceExit --runInBand --detectOpenHandles",
     "seed": "ts-node src/seed/seedScript.ts"
   },
   "keywords": [],
