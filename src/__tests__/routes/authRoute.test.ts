@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { User } from "../../models/userModel";
 import supertest from "supertest";
 import { app } from "../../server";
+import { connectDB } from "../../config/db";
 const userData = {
   name: "Daniel",
   surname: "Chochlinski",
@@ -11,9 +12,10 @@ const userData = {
 
 describe("Test auth route", () => {
   beforeAll(async () => {
-    await mongoose.connect(
-      process.env.MONGO_DB_URL_TEST || "mongodb://localhost:27017/"
-    );
+    // await mongoose.connect(
+    //   process.env.MONGO_DB_URL_TEST || "mongodb://localhost:27017/"
+    // );
+    await connectDB();
   });
 
   afterEach(async () => {
@@ -35,4 +37,6 @@ describe("Test auth route", () => {
     expect(response.body.data.user.email).toEqual(userData.email);
     expect(response.body.data.token).toBeDefined();
   });
+
+  
 });

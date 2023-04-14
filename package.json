@@ -9,11 +9,11 @@
     "build": "npm-run-all lint format clean && tsc",
     "start": "ts-node src/server.ts",
     "local": "ts-node src/server.ts",
-    "dev": "nodemon src/server.ts -e ts,json --exec 'npm run local'",
+    "dev": "NODE_ENV=dev nodemon src/server.ts -e ts,json --exec 'npm run local'",
     "lint": "eslint src/server.ts",
     "format": "npx prettier --write src/server.ts",
     "format:check": "npx prettier --check src/server.ts",
-    "test": "export NODE_ENV=test && jest --forceExit --runInBand --detectOpenHandles",
+    "test": "export NODE_ENV=test && jest --forceExit --runInBand --detectOpenHandles --coverage",
     "seed": "ts-node src/seed/seedScript.ts"
   },
   "keywords": [],
