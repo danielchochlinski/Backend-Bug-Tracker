@@ -45,6 +45,7 @@ export const updateUser = async (req: any, res: Response) => {
     });
   }
 };
+//checking
 
 export const updateUserPassword = async (req: any, res: Response) => {
   try {
