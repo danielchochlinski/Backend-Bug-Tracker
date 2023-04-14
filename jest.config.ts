@@ -9,4 +9,14 @@ export default {
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest",
   },
+
+  moduleNameMapper: {
+    "@eslint/eslintrc/universal":
+      "@eslint/eslintrc/dist/eslintrc-universal.cjs",
+  },
+  moduleDirectories: [
+    "node_modules", // default module directory
+    "./src",
+  ],
+  testTimeout: 20000,
 };

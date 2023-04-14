@@ -7,16 +7,17 @@ const port = process.env.PORT;
 import authRoute from "./routes/auth";
 import dashboardRoute from "./routes/dashboard";
 import projectRoute from "./routes/projects";
-import testRoute from "./routes/test";
+import testRoute from "./routes/testRoute";
 import { connectDB } from "./config/db";
 
-connectDB();
+// connectDB();
 app.use(bodyParser.json());
 app.use("/api/user", authRoute);
 app.use("/api/dashboard", dashboardRoute);
 app.use("/api/projects", projectRoute);
 app.use("/api/test", testRoute);
-
-app.listen(port || 3000, () => {
-  console.log(`app is listening on ${port}`);
-});
+if (process.env.NODE_ENV !== "test") {
+  app.listen(port || 3000, () => {
+    console.log(`app is listening on ${port}`);
+  });
+}
