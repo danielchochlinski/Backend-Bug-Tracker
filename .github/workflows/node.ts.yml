@@ -6,6 +6,8 @@ name: Node.ts CI
 on:
   push:
     branches: ["dev"]
+  pull:
+    branches: ["dev"]
 
 jobs:
   DEV-BUILD:
