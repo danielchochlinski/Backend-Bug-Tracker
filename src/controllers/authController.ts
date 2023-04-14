@@ -76,7 +76,7 @@ export const loginUser = async (req: Request, res: Response) => {
 };
 
 //Generate GWT
-const generateToken = (id: string) => {
+export const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || "", {
     expiresIn: "30d",
   });

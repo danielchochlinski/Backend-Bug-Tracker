@@ -14,6 +14,6 @@
     "typeRoots": ["./src/@types", "./node_modules/@types"]
   },
 
-  "include": ["src", "package.json", "src/server.ts"],
+  "include": ["src", "package.json", "src/server.ts", "__test__"],
   "exclude": ["src/**/*.test.ts"]
 }
