@@ -1,8 +1,10 @@
 import mongoose, { Schema } from "mongoose";
-import { TickerModelInterface } from "./types";
-const ticketUserSchema = new mongoose.Schema({});
+import { TicketModelInterface } from "./types";
+const ticketUserSchema = new mongoose.Schema({
+  user: { type: Schema.Types.ObjectId, ref: "User" },
+});
 const ticketSchema = new mongoose.Schema({
-  name: {
+  title: {
     type: String,
     require: [true, "Ticket must have a name"],
   },
@@ -35,14 +37,9 @@ const ticketSchema = new mongoose.Schema({
     //2 = frontend
     //3 = backend
   },
-  // assigned: [
-  //   {
-  //     type: Schema.Types.ObjectId,
-  //     ref: "User",
-  //   },
-  // ],
+  assigned: [ticketUserSchema],
 });
-export const Ticket = mongoose.model<TickerModelInterface>(
+export const Ticket = mongoose.model<TicketModelInterface>(
   "Ticket",
   ticketSchema
 );

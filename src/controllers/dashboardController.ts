@@ -9,7 +9,8 @@ export const getUser = async (req: any, res: Response) => {
       data: req.user,
     });
   } catch (err) {
-    return res.status(400).json({ status: "Failed" });
+    console.error(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };
 
@@ -21,9 +22,8 @@ export const getUsers = async (req: Request, res: Response) => {
       data: { users: users },
     });
   } catch (err) {
-    return res.status(400).json({
-      status: "Failed",
-    });
+    console.error(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };
 
@@ -40,9 +40,8 @@ export const updateUser = async (req: any, res: Response) => {
       data: { updatedUser },
     });
   } catch (err) {
-    return res.status(400).json({
-      status: "Failed",
-    });
+    console.error(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };
 //checking
@@ -70,8 +69,7 @@ export const updateUserPassword = async (req: any, res: Response) => {
       });
     }
   } catch (err) {
-    return res.status(400).json({
-      status: "Failed",
-    });
+    console.error(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };
