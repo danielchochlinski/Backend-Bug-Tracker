@@ -8,7 +8,7 @@ export const createProject = async (req: Request, res: Response) => {
     const project = await Project.create({
       name,
       priority,
-      users: [{ _id, admin: true, role: 3 }],
+      users: [{ admin: true, role: 3 }],
     });
     console.log(project);
     res

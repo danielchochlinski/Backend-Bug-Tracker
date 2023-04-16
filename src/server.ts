@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use("/api/user", authRoute);
 app.use("/api/dashboard", dashboardRoute);
 app.use("/api/projects", projectRoute);
-app.use("/api/", testRoute);
+app.use("/api/test/", testRoute);
 
 if (process.env.NODE_ENV !== "test") {
   app.listen(port || 3000, () => {

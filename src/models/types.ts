@@ -19,3 +19,13 @@ export interface ProjectModelInterface {
   priority: number;
   users: [ProjectUserInterface];
 }
+export interface TicketUserInterface {
+  _id: string;
+}
+export interface TickerModelInterface {
+  name: string;
+  status: number;
+  priority: number;
+  type: number;
+  assigned: [TicketUserInterface];
+}
