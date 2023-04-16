@@ -6,3 +6,6 @@ Fronend will be written React/Next.js as well as React Native for mobile.
 
     -start development
     docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+
+    -link to postman 
+    https://app.getpostman.com/join-team?invite_code=19a9392288816dd2d50800be6bd6cbeb&target_code=0f966294452eac153ba5a14e8eac911a
