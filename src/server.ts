@@ -8,6 +8,7 @@ import authRoute from "./routes/auth";
 import dashboardRoute from "./routes/dashboard";
 import projectRoute from "./routes/projects";
 import testRoute from "./routes/testRoute";
+import ticketsRoute from "./routes/tickets";
 import { connectDB } from "./config/db";
 
 connectDB();
@@ -15,7 +16,10 @@ app.use(bodyParser.json());
 app.use("/api/user", authRoute);
 app.use("/api/dashboard", dashboardRoute);
 app.use("/api/projects", projectRoute);
-app.use("/api/", testRoute);
+app.use("/api/project", ticketsRoute);
+
+//testing route dev only
+app.use("/api/test/", testRoute);
 
 if (process.env.NODE_ENV !== "test") {
   app.listen(port || 3000, () => {

@@ -2,14 +2,15 @@ import { Request, Response } from "express";
 import { User } from "../models/userModel";
 import bcrypt from "bcryptjs";
 
-export const getUser = async (req: any, res: Response) => {
+export const getUser = async (req: Request, res: Response) => {
   try {
     return res.status(200).json({
       status: "Success",
       data: req.user,
     });
   } catch (err) {
-    return res.status(400).json({ status: "Failed" });
+    console.error(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };
 
@@ -21,13 +22,12 @@ export const getUsers = async (req: Request, res: Response) => {
       data: { users: users },
     });
   } catch (err) {
-    return res.status(400).json({
-      status: "Failed",
-    });
+    console.error(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };
 
-export const updateUser = async (req: any, res: Response) => {
+export const updateUser = async (req: Request, res: Response) => {
   try {
     const user = req.user;
     const updateInfo = req.body;
@@ -40,14 +40,13 @@ export const updateUser = async (req: any, res: Response) => {
       data: { updatedUser },
     });
   } catch (err) {
-    return res.status(400).json({
-      status: "Failed",
-    });
+    console.error(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };
 //checking
 
-export const updateUserPassword = async (req: any, res: Response) => {
+export const updateUserPassword = async (req: Request, res: Response) => {
   try {
     const { _id, password } = req.user;
 
@@ -70,8 +69,7 @@ export const updateUserPassword = async (req: any, res: Response) => {
       });
     }
   } catch (err) {
-    return res.status(400).json({
-      status: "Failed",
-    });
+    console.error(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };

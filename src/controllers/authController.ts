@@ -37,9 +37,8 @@ export const registerUser = async (req: Request, res: Response) => {
       });
     }
   } catch (err) {
-    return res.status(500).json({
-      status: "Failed",
-    });
+    console.error(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };
 
@@ -71,7 +70,8 @@ export const loginUser = async (req: Request, res: Response) => {
       });
     }
   } catch (err) {
-    res.status(404);
+    console.error(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };
 

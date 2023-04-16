@@ -102,11 +102,8 @@ export const updateProjectAuth = async (req: any, res: Response) => {
       data: projects,
     });
   } catch (err) {
-    console.log(err);
-    return res.status(400).json({
-      status: "Failed",
-      message: "Ups something went wrong",
-    });
+    console.error(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };
 
@@ -138,10 +135,7 @@ export const removeUserFromProject = async (req: any, res: Response) => {
       data: project,
     });
   } catch (err) {
-    console.log(err);
-    return res.status(400).json({
-      status: "Failed",
-      message: "Ups something went wrong",
-    });
+    console.error(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };

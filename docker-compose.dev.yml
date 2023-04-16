@@ -17,6 +17,7 @@ services:
       - JWT_SECRET=password123
       - EMAIL_PASSWORD=bugtrackerapp123
       - CLIENT_URL=localhost5000
+
     command: npm run dev
 
   mongo:

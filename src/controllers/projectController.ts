@@ -15,10 +15,7 @@ export const createProject = async (req: Request, res: Response) => {
       .status(200)
       .json({ status: "Success", message: "Project succesfully created" });
   } catch (err) {
-    res
-      .status(400)
-      .json({ status: "Failed", message: "Failed to creat project" });
-    console.log(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };
 
@@ -29,17 +26,19 @@ export const getProjects = async (req: Request, res: Response) => {
     console.log(projects);
     res.status(200).json({ status: "Success", data: projects });
   } catch (err) {
-    res
-      .status(400)
-      .json({ status: "Failed", message: "Failed to load your projects" });
-    console.log(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };
 
 export const deleteProject = async (req: Request, res: Response) => {
   const { _id: userId } = req.user;
   const projectId = req.params.id;
-
+  const { _id } = req.user || {};
+  if (!_id) {
+    return res
+      .status(400)
+      .json({ status: "Failed", message: "Invalid user ID" });
+  }
   try {
     const projects = await Project.find({ "users._id": userId });
     if (projects.length !== 0) {
@@ -65,11 +64,6 @@ export const deleteProject = async (req: Request, res: Response) => {
       res.status(400).json({ status: "Failed", message: "No projects found" });
     }
   } catch (err) {
-    res.status(400).json({
-      status: "Failed",
-      message: "Failed to delete this projects",
-      value: projectId,
-    });
-    console.log(err);
+    return res.status(500).send({ error: "Server error" });
   }
 };
