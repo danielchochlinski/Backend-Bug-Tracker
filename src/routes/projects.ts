@@ -17,10 +17,10 @@ const router = Router();
 
 router.post("/create-project", auth, createProject);
 router.get("/get-projects", auth, getProjects);
-router.delete("/delete-project/:id", auth, deleteProject);
+router.delete("/delete-project/:projectId", auth, deleteProject);
 
 //admin
-router.post("/admin/add-user/:id", auth, addUserToProject);
-router.patch("/admin/update-auth/:id", auth, isAdmin, updateProjectAuth);
-router.patch("/admin/remove-user/:id", auth, isAdmin, removeUserFromProject);
+router.post("/admin/add-user/:projectId", auth, addUserToProject);
+router.patch("/admin/update-auth/:projectId", auth, isAdmin, updateProjectAuth);
+router.patch("/admin/remove-user/:projectId", auth, isAdmin, removeUserFromProject);
 export default router;

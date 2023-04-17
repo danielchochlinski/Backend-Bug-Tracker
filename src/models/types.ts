@@ -14,12 +14,15 @@ export interface ProjectUserInterface {
   // role?: number;
   [key: string]: string | number | boolean;
 }
-
+export interface PendingUserInterface {
+  email: string;
+}
 export interface ProjectModelInterface {
   name: string;
   priority: number;
   users: [ProjectUserInterface];
   tickets: [TicketModelInterface];
+  pendingUsers: [PendingUserInterface];
 }
 export interface TicketUserInterface {
   _id: string;
