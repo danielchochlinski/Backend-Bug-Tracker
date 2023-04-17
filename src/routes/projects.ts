@@ -14,6 +14,7 @@ import { isAdmin } from "../middleware/adminMiddleware";
 // import { auth } from "../middleware/authMiddleware";
 
 const router = Router();
+
 router.post("/create-project", auth, createProject);
 router.get("/get-projects", auth, getProjects);
 router.delete("/delete-project/:id", auth, deleteProject);
