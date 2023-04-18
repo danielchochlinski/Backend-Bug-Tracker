@@ -8,6 +8,7 @@ import {
 import { auth } from "../middleware/authMiddleware";
 const router = Router();
 
+//api/dashboard
 router.get("/getUsers", getUsers);
 
 router.get("/me", auth, getUser);

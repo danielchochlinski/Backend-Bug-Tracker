@@ -4,7 +4,7 @@ import { Project } from "../models/projectModel";
 import { Ticket } from "../models/ticketModel";
 
 const router = Router();
-router.get("/get-users", async (req: any, res: any) => {
+router.get("/get-users", async (req: Request, res: Response) => {
   try {
     const users = await User.find({});
     res.status(200).json({ status: "Success", data: users });
@@ -13,7 +13,7 @@ router.get("/get-users", async (req: any, res: any) => {
   }
 });
 
-router.get("/get-projects", async (req: any, res: any) => {
+router.get("/get-projects", async (req: Request, res: Response) => {
   try {
     const projects = await Project.find({});
     res.status(200).json({ status: "Success", data: projects });

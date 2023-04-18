@@ -6,6 +6,7 @@ export interface UserModelInterface {
   _id?: string;
   verified: boolean;
   emailToken: string | null;
+  invitations: [string];
 }
 export interface ProjectUserInterface {
   // email?: string;

@@ -22,7 +22,7 @@ export const sendInvitationMail = async (
   };
   (await transporter).sendMail(mailTemplate, (error) => {
     if (error) {
-      console.log(error);
+      console.error(error);
     } else {
       console.log("Verification email sent");
     }

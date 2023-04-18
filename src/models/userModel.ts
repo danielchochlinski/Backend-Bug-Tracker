@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema({
   emailToken: {
     type: String || null,
   },
+  invitations: [{ type: String }],
 });
 
 export const User = mongoose.model<UserModelInterface>("User", userSchema);
