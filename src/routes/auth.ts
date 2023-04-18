@@ -3,12 +3,13 @@ import {
   registerUser,
   loginUser,
   verifyEmail,
-} from "../controllers/authController";
+} from "../controllers/auth/authController";
 
 import { auth } from "../middleware/authMiddleware";
 // const router = require("express").Router();
 const router = Router();
 
+//api/user
 router.post("/register", registerUser);
 
 router.post("/login", loginUser);

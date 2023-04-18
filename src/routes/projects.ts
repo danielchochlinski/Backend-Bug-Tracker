@@ -15,9 +15,10 @@ import { isAdmin } from "../middleware/adminMiddleware";
 
 const router = Router();
 
+//api/project/
 router.post("/create-project", auth, createProject);
 router.get("/get-projects", auth, getProjects);
-router.delete("/delete-project/:projectId", auth, deleteProject);
+router.delete("/project/:projectId", auth, deleteProject);
 
 //admin
 router.post("/admin/add-user/:projectId", auth, addUserToProject);
