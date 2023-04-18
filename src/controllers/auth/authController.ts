@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import { Project } from "../../models/projectModel";
 import { User } from "../../models/userModel";
-import { sendInvitationMail } from "../../utilities/sendInviteMail";
 import { sendVerificationMail } from "../../utilities/sendVerificationMail";
 import generateToken from "../../extra/generateToken";
 

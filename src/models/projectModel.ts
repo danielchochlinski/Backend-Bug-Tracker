@@ -1,9 +1,5 @@
 import mongoose from "mongoose";
-import {
-  ProjectModelInterface,
-  ProjectUserInterface,
-  UserModelInterface,
-} from "./types";
+import { ProjectModelInterface, ProjectUserInterface } from "./types";
 import Schema = mongoose.Schema;
 import { User } from "./userModel";
 import { Ticket } from "./ticketModel";

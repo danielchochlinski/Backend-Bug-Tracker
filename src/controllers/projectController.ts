@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import { Project, UserProject } from "../models/projectModel";
-import mongoose from "mongoose";
+import { Project } from "../models/projectModel";
 export const createProject = async (req: Request, res: Response) => {
   const { name, priority } = req.body;
   const { _id } = req.user;

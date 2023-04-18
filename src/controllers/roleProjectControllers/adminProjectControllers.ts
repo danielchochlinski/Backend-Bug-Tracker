@@ -1,14 +1,14 @@
-import { Response } from "express";
+import { Response, Request } from "express";
 import { Project } from "../../models/projectModel";
 import { User } from "../../models/userModel";
-import { isValid } from "../../extra/validatiors";
-import mongoose from "mongoose";
+
 import { ProjectUserInterface } from "../../models/types";
+import { UserModelInterface } from "../../@types/express";
 
 // @desc        Add user to project only leader or admin can do it
 // @router      GET /api/projects/admin/add-user/:id
 // @access      Private
-export const addUserToProject = async (req: any, res: Response) => {
+export const addUserToProject = async (req: Request, res: Response) => {
   if (!req.body) {
     res.status(400).send("Bad request");
     return;
@@ -17,14 +17,21 @@ export const addUserToProject = async (req: any, res: Response) => {
   //    as { email: string; role: number };
 
   //   const { _id: userId } = req.user;
-  const projectId = req.params.projectId;
+  const { projectId } = req.params;
   //   as string;
 
   try {
-    const user: any = await User.findOne({
+    const user: UserModelInterface | null = await User.findOne({
       email,
     }).select("-password");
     console.log(user);
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ status: "Failed", message: "No such user" });
+    }
+
     const { _id: searchID } = user;
 
     if (!user)
@@ -41,7 +48,7 @@ export const addUserToProject = async (req: any, res: Response) => {
         .status(400)
         .json({ status: "Failed", message: "User already in the project " });
     }
-    await Project.findOneAndUpdate(
+    await Project.findByIdAndUpdate(
       projectId,
       { $push: { users: [{ _id: user._id, admin: false, role }] } },
 
@@ -59,7 +66,7 @@ export const addUserToProject = async (req: any, res: Response) => {
 // @desc        Update auth for user inside project
 // @router      GET /api/projects/admin/update-auth/:id
 // @access      Private
-export const updateProjectAuth = async (req: any, res: Response) => {
+export const updateProjectAuth = async (req: Request, res: Response) => {
   const { email } = req.body;
   //   const { _id: userId } = req.user;
   const projectId = req.params.projectId;
@@ -67,7 +74,7 @@ export const updateProjectAuth = async (req: any, res: Response) => {
 
   try {
     //check if user exisits
-    const user: any = await User.findOne({
+    const user: UserModelInterface | null = await User.findOne({
       email,
     }).select("-password");
 
@@ -107,13 +114,16 @@ export const updateProjectAuth = async (req: any, res: Response) => {
   }
 };
 
-export const removeUserFromProject = async (req: any, res: Response) => {
+export const removeUserFromProject = async (req: Request, res: Response) => {
   const { email } = req.body;
-  const projectId = req.params.projectId;
+  const { projectId } = req.params;
 
-  const user: any = await User.findOne({
+  const user: UserModelInterface | null = await User.findOne({
     email,
   }).select("-password");
+
+  if (!user)
+    return res.status(400).json({ status: "Failed", message: "No such user" });
 
   if (user.email === req.user.email) {
     return res

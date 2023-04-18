@@ -2,7 +2,6 @@ import { Project } from "../models/projectModel";
 import { Ticket } from "../models/ticketModel";
 import { Request, Response } from "express";
 import { TicketModelInterface } from "../models/types";
-import { dynamicUpdate } from "../extra/dynamicUpdate";
 
 // @desc       Create ticket inside a project
 // @router     POST /api/projects/:projectId/create-ticket

@@ -5,7 +5,6 @@ import {
   verifyEmail,
 } from "../controllers/auth/authController";
 
-import { auth } from "../middleware/authMiddleware";
 // const router = require("express").Router();
 const router = Router();
 
