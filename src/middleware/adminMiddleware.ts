@@ -6,7 +6,7 @@ export const isAdmin = async (
   res: Response,
   next: NextFunction
 ) => {
-  const projectId = req.params.id;
+  const projectId = req.params.projectId;
   const userId = req.user.id;
   try {
     const project = await Project.findById(projectId);

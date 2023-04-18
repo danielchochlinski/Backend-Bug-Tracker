@@ -34,6 +34,14 @@ const projectSchema = new mongoose.Schema(
     },
     tickets: [{ type: Schema.Types.ObjectId, ref: Ticket }],
     users: [userProjectSchema],
+    pendingUsers: [
+      {
+        email: {
+          type: String,
+          required: [true, "Please provide email"],
+        },
+      },
+    ],
   },
 
   { timestamps: true }

@@ -17,7 +17,7 @@ export const addUserToProject = async (req: any, res: Response) => {
   //    as { email: string; role: number };
 
   //   const { _id: userId } = req.user;
-  const projectId = req.params.id;
+  const projectId = req.params.projectId;
   //   as string;
 
   try {
@@ -62,7 +62,7 @@ export const addUserToProject = async (req: any, res: Response) => {
 export const updateProjectAuth = async (req: any, res: Response) => {
   const { email } = req.body;
   //   const { _id: userId } = req.user;
-  const projectId = req.params.id;
+  const projectId = req.params.projectId;
   const update: ProjectUserInterface = {};
 
   try {
@@ -109,7 +109,7 @@ export const updateProjectAuth = async (req: any, res: Response) => {
 
 export const removeUserFromProject = async (req: any, res: Response) => {
   const { email } = req.body;
-  const projectId = req.params.id;
+  const projectId = req.params.projectId;
 
   const user: any = await User.findOne({
     email,
