@@ -3,6 +3,7 @@ import { ProjectModelInterface, ProjectUserInterface } from "./types";
 import Schema = mongoose.Schema;
 import { User } from "./userModel";
 import { Ticket } from "./ticketModel";
+import { Task } from "./taskModel";
 // const userProjectSchema = new mongoose.Schema({
 //   admin: {
 //     type: Boolean,
@@ -28,7 +29,7 @@ const projectSchema = new mongoose.Schema(
       type: Number,
       default: 0
     },
-    tickets: [{ ticket: { type: Schema.Types.ObjectId, ref: Ticket } }],
+    tasks: [{ task: { type: Schema.Types.ObjectId, ref: Task } }],
     users: [
       {
         user: {

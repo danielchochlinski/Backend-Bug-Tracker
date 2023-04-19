@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { auth } from '../middleware/authMiddleware';
-import { createProject, deleteProject, getProject } from '../controllers/projectController';
+import { createProject, deleteProject, getProjects } from '../controllers/projectController';
 import {
   addUserToProject,
   removeUserFromProject,
@@ -16,15 +16,18 @@ const router = Router();
 router.post('/organization/:orgId/project', auth, isOrgAdmin, createProject);
 
 //api/organization/:orgId/project
-router.get('/organization/:orgId/project/project/:projectId', auth, projectAuth, getProject);
-router.delete('/project/:projectId', auth, deleteProject);
+router.get('/organization/:orgId/project/project/:projectId', auth, projectAuth, getProjects);
+router.delete('/organization/project/:projectId', auth,isOrgAdmin, deleteProject);
+
+
+
+//Admin Project Routes
+//api/organization/:orgId/project/:projectId/user
+router.post('/organization/:orgId/project/:projectId/user', auth, isProjectAdmin, addUserToProject);
 
 //api/organization/:orgId/project/:projectId/user
-router.post('/organization/:orgId/project/:projectId/add-user', auth, isProjectAdmin, addUserToProject);
-
-//api/organization/:orgId/project/:projectId/user
-router.patch('/admin/update-auth/:projectId', auth, isProjectAdmin, updateProjectAuth);
+router.patch('/organization/:orgId/project/:projectId/user', auth, isProjectAdmin, updateProjectAuth);
 
 //api/organization/:orgId/project/:projectId/remove-user
-router.patch('/admin/remove-user/:projectId', auth, isProjectAdmin, removeUserFromProject);
+router.patch('/organization/:orgId/project/:projectId/remove-user', auth, isProjectAdmin, removeUserFromProject);
 export default router;

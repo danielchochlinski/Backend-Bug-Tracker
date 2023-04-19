@@ -21,21 +21,33 @@ export const createProject = async (req: Request, res: Response) => {
       { new: true }
     );
 
-    res.status(200).json({ status: "Success", message: "Project succesfully created" });
+    res
+      .status(200)
+      .json({ status: "Success", message: "Project succesfully created" });
   } catch (err) {
     return res.status(500).send({ error: "Server error" });
   }
 };
 
-// @desc        Creat user using invitation link and add to project or send invite to user if exisits
-// @router      POST //api/registration/project/:projectId/invite"
-// @access      Private
-export const getProject = async (req: Request, res: Response) => {
+// @desc        Get all projects available to a user
+// @router      POST //api/organization/:orgId/projects"
+// @access      Private auth / projectAuth
+export const getProjects = async (req: Request, res: Response) => {
   const { _id } = req.user;
   try {
     const projects = await Project.find({ "users._id": _id }).select("-users");
     console.log(projects);
-    res.status(200).json({ status: "Success", data: projects });
+    res.send({ status: "Success", data: projects });
+  } catch (err) {
+    return res.status(500).send({ error: "Server error" });
+  }
+};
+
+export const getSingleProject = async (req: Request, res: Response) => {
+  const { projectId } = req.params;
+  try {
+    const projects = await Project.findById(projectId).select("-users");
+    res.send({ status: "Success", data: projects });
   } catch (err) {
     return res.status(500).send({ error: "Server error" });
   }
@@ -49,7 +61,9 @@ export const deleteProject = async (req: Request, res: Response) => {
   const projectId = req.params.id;
   const { _id } = req.user || {};
   if (!_id) {
-    return res.status(400).json({ status: "Failed", message: "Invalid user ID" });
+    return res
+      .status(400)
+      .json({ status: "Failed", message: "Invalid user ID" });
   }
   try {
     const projects = await Project.find({ "users._id": userId });
