@@ -19,9 +19,12 @@ router.post('/organization/:orgId/project', auth, isOrgAdmin, createProject);
 router.get('/organization/:orgId/project/project/:projectId', auth, projectAuth, getProject);
 router.delete('/project/:projectId', auth, deleteProject);
 
-//api/organization/:orgId/project/:projectId/add-user
+//api/organization/:orgId/project/:projectId/user
 router.post('/organization/:orgId/project/:projectId/add-user', auth, isProjectAdmin, addUserToProject);
 
+//api/organization/:orgId/project/:projectId/user
 router.patch('/admin/update-auth/:projectId', auth, isProjectAdmin, updateProjectAuth);
+
+//api/organization/:orgId/project/:projectId/remove-user
 router.patch('/admin/remove-user/:projectId', auth, isProjectAdmin, removeUserFromProject);
 export default router;

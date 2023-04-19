@@ -6,8 +6,8 @@ import { ProjectUserInterface } from "../../models/types";
 import { UserModelInterface } from "../../@types/express";
 
 // @desc        Add user to project only leader or admin can do it
-// @router      GET /api/projects/admin/add-user/:id
-// @access      Private
+// @router      GET api/organization/:orgId/project/:projectId/user
+// @access      Private auth / isProjectAdmin
 export const addUserToProject = async (req: Request, res: Response) => {
   if (!req.body) {
     res.status(400).send("Bad request");
@@ -27,25 +27,33 @@ export const addUserToProject = async (req: Request, res: Response) => {
     console.log(user);
 
     if (!user) {
-      return res.status(400).json({ status: "Failed", message: "No such user" });
+      return res
+        .status(400)
+        .json({ status: "Failed", message: "No such user" });
     }
 
     const { _id: searchID } = user;
 
-    if (!user) return res.status(400).json({ status: "Failed", message: "No such user" });
+    if (!user)
+      return res
+        .status(400)
+        .json({ status: "Failed", message: "No such user" });
 
     const isInside = await Project.aggregate([
       { $unwind: "$users" },
       { $match: { "users._id": searchID } }
     ]);
     if (isInside.length !== 0) {
-      return res.status(400).json({ status: "Failed", message: "User already in the project " });
+      return res
+        .status(400)
+        .json({ status: "Failed", message: "User already in the project " });
     }
     await Project.findByIdAndUpdate(
       projectId,
       { $push: { users: [{ _id: user._id, isAdmin: false, role }] } },
       { new: true }
     );
+
     return res.status(200).json({ isInside });
   } catch (err) {
     return res.status(400).json({
@@ -55,9 +63,9 @@ export const addUserToProject = async (req: Request, res: Response) => {
   }
 };
 
-// @desc        Update auth for user inside project
-// @router      GET /api/projects/admin/update-auth/:id
-// @access      Private
+// @desc        Update auth for user inside project only project admin can do it
+// @router      PATCH api/organization/:orgId/project/:projectId/user
+// @access      Private auth / isProjectAdmin
 export const updateProjectAuth = async (req: Request, res: Response) => {
   const { email } = req.body;
   //   const { _id: userId } = req.user;
@@ -70,7 +78,10 @@ export const updateProjectAuth = async (req: Request, res: Response) => {
       email
     }).select("-password");
 
-    if (!user) return res.status(400).json({ status: "Failed", message: "No such user" });
+    if (!user)
+      return res
+        .status(400)
+        .json({ status: "Failed", message: "No such user" });
 
     //Set only values that are not empty
     for (const key of Object.keys(req.body)) {
@@ -103,6 +114,9 @@ export const updateProjectAuth = async (req: Request, res: Response) => {
   }
 };
 
+// @desc        Remove user from project
+// @router      DELETE api/organization/:orgId/project/:projectId/remove-user
+// @access      Private auth / isProjectAdmin
 export const removeUserFromProject = async (req: Request, res: Response) => {
   const { email } = req.body;
   const { projectId } = req.params;
@@ -111,12 +125,16 @@ export const removeUserFromProject = async (req: Request, res: Response) => {
     email
   }).select("-password");
 
-  if (!user) return res.status(400).json({ status: "Failed", message: "No such user" });
+  if (!user)
+    return res.status(400).json({ status: "Failed", message: "No such user" });
 
   if (user.email === req.user.email) {
-    return res.status(400).json({ status: "Failed", message: "Admin cant remove himself" });
+    return res
+      .status(400)
+      .json({ status: "Failed", message: "Admin cant remove himself" });
   }
-  if (!user) return res.status(400).json({ status: "Failed", message: "No such user" });
+  if (!user)
+    return res.status(400).json({ status: "Failed", message: "No such user" });
 
   try {
     const project = await Project.findByIdAndUpdate(

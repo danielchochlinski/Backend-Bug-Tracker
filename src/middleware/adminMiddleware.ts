@@ -9,6 +9,7 @@ export const isProjectAdmin = async (
 ) => {
   const projectId = req.params.projectId;
   const userId = req.user.id;
+  console.log(projectId, userId);
   try {
     const project = await Project.findById(projectId);
 
@@ -21,7 +22,7 @@ export const isProjectAdmin = async (
       return res.status(401).json({ message: "User not authorized" });
     }
 
-    if (!user.admin) {
+    if (!user.isAdmin) {
       return res.status(403).json({ message: "User is not an admin" });
     }
 
