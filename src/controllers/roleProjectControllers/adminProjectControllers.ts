@@ -22,43 +22,35 @@ export const addUserToProject = async (req: Request, res: Response) => {
 
   try {
     const user: UserModelInterface | null = await User.findOne({
-      email,
+      email
     }).select("-password");
     console.log(user);
 
     if (!user) {
-      return res
-        .status(400)
-        .json({ status: "Failed", message: "No such user" });
+      return res.status(400).json({ status: "Failed", message: "No such user" });
     }
 
     const { _id: searchID } = user;
 
-    if (!user)
-      return res
-        .status(400)
-        .json({ status: "Failed", message: "No such user" });
+    if (!user) return res.status(400).json({ status: "Failed", message: "No such user" });
 
     const isInside = await Project.aggregate([
       { $unwind: "$users" },
-      { $match: { "users._id": searchID } },
+      { $match: { "users._id": searchID } }
     ]);
     if (isInside.length !== 0) {
-      return res
-        .status(400)
-        .json({ status: "Failed", message: "User already in the project " });
+      return res.status(400).json({ status: "Failed", message: "User already in the project " });
     }
     await Project.findByIdAndUpdate(
       projectId,
-      { $push: { users: [{ _id: user._id, admin: false, role }] } },
-
+      { $push: { users: [{ _id: user._id, isAdmin: false, role }] } },
       { new: true }
     );
     return res.status(200).json({ isInside });
   } catch (err) {
     return res.status(400).json({
       status: "Failed",
-      message: "Ups something went wrong",
+      message: "Ups something went wrong"
     });
   }
 };
@@ -75,13 +67,10 @@ export const updateProjectAuth = async (req: Request, res: Response) => {
   try {
     //check if user exisits
     const user: UserModelInterface | null = await User.findOne({
-      email,
+      email
     }).select("-password");
 
-    if (!user)
-      return res
-        .status(400)
-        .json({ status: "Failed", message: "No such user" });
+    if (!user) return res.status(400).json({ status: "Failed", message: "No such user" });
 
     //Set only values that are not empty
     for (const key of Object.keys(req.body)) {
@@ -93,20 +82,20 @@ export const updateProjectAuth = async (req: Request, res: Response) => {
     const projects = await Project.findOneAndUpdate(
       {
         _id: projectId,
-        "users._id": user._id,
+        "users._id": user._id
       },
       {
-        $set: { "users.$": { ...update, _id: user._id } },
+        $set: { "users.$": { ...update, _id: user._id } }
       },
       {
-        new: true,
+        new: true
       }
     );
 
     return res.status(200).json({
       status: "Success",
       message: "Auth has been updated",
-      data: projects,
+      data: projects
     });
   } catch (err) {
     console.error(err);
@@ -119,19 +108,15 @@ export const removeUserFromProject = async (req: Request, res: Response) => {
   const { projectId } = req.params;
 
   const user: UserModelInterface | null = await User.findOne({
-    email,
+    email
   }).select("-password");
 
-  if (!user)
-    return res.status(400).json({ status: "Failed", message: "No such user" });
+  if (!user) return res.status(400).json({ status: "Failed", message: "No such user" });
 
   if (user.email === req.user.email) {
-    return res
-      .status(400)
-      .json({ status: "Failed", message: "Admin cant remove himself" });
+    return res.status(400).json({ status: "Failed", message: "Admin cant remove himself" });
   }
-  if (!user)
-    return res.status(400).json({ status: "Failed", message: "No such user" });
+  if (!user) return res.status(400).json({ status: "Failed", message: "No such user" });
 
   try {
     const project = await Project.findByIdAndUpdate(
@@ -142,7 +127,7 @@ export const removeUserFromProject = async (req: Request, res: Response) => {
     res.status(200).json({
       status: "Success",
       message: `User ${user._id} has been removed from this project`,
-      data: project,
+      data: project
     });
   } catch (err) {
     console.error(err);

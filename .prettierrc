@@ -1,0 +1,17 @@
+{
+  "printWidth": 80,
+  "singleQuote": false,
+  "trailingComma": "none",
+  "overrides": [
+    {
+      "files": ["<rootDir>/src/routes/*"],
+
+      "options": {
+        "printWidth": 9999
+      }
+    }
+  ],
+  "endOfLine": "auto",
+  "preserve": true,
+  "proseWrap": "always"
+}

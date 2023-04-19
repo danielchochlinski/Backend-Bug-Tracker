@@ -38,3 +38,9 @@ export interface TicketModelInterface {
   type: number;
   assigned: [TicketUserInterface];
 }
+
+export interface OrganizationModelInterface {
+  name: string;
+  projects: [ProjectModelInterface];
+  
+}
