@@ -6,8 +6,8 @@ import { ProjectUserInterface } from "../../models/types";
 import { UserModelInterface } from "../../@types/express";
 
 // @desc        Add user to project only leader or admin can do it
-// @router      GET /api/projects/admin/add-user/:id
-// @access      Private
+// @router      GET api/organization/:orgId/project/:projectId/user
+// @access      Private auth / isProjectAdmin
 export const addUserToProject = async (req: Request, res: Response) => {
   if (!req.body) {
     res.status(400).send("Bad request");
@@ -22,7 +22,7 @@ export const addUserToProject = async (req: Request, res: Response) => {
 
   try {
     const user: UserModelInterface | null = await User.findOne({
-      email,
+      email
     }).select("-password");
     console.log(user);
 
@@ -41,7 +41,7 @@ export const addUserToProject = async (req: Request, res: Response) => {
 
     const isInside = await Project.aggregate([
       { $unwind: "$users" },
-      { $match: { "users._id": searchID } },
+      { $match: { "users._id": searchID } }
     ]);
     if (isInside.length !== 0) {
       return res
@@ -50,22 +50,22 @@ export const addUserToProject = async (req: Request, res: Response) => {
     }
     await Project.findByIdAndUpdate(
       projectId,
-      { $push: { users: [{ _id: user._id, admin: false, role }] } },
-
+      { $push: { users: [{ _id: user._id, isAdmin: false, role }] } },
       { new: true }
     );
+
     return res.status(200).json({ isInside });
   } catch (err) {
     return res.status(400).json({
       status: "Failed",
-      message: "Ups something went wrong",
+      message: "Ups something went wrong"
     });
   }
 };
 
-// @desc        Update auth for user inside project
-// @router      GET /api/projects/admin/update-auth/:id
-// @access      Private
+// @desc        Update auth for user inside project only project admin can do it
+// @router      PATCH api/organization/:orgId/project/:projectId/user
+// @access      Private auth / isProjectAdmin
 export const updateProjectAuth = async (req: Request, res: Response) => {
   const { email } = req.body;
   //   const { _id: userId } = req.user;
@@ -75,7 +75,7 @@ export const updateProjectAuth = async (req: Request, res: Response) => {
   try {
     //check if user exisits
     const user: UserModelInterface | null = await User.findOne({
-      email,
+      email
     }).select("-password");
 
     if (!user)
@@ -93,20 +93,20 @@ export const updateProjectAuth = async (req: Request, res: Response) => {
     const projects = await Project.findOneAndUpdate(
       {
         _id: projectId,
-        "users._id": user._id,
+        "users._id": user._id
       },
       {
-        $set: { "users.$": { ...update, _id: user._id } },
+        $set: { "users.$": { ...update, _id: user._id } }
       },
       {
-        new: true,
+        new: true
       }
     );
 
     return res.status(200).json({
       status: "Success",
       message: "Auth has been updated",
-      data: projects,
+      data: projects
     });
   } catch (err) {
     console.error(err);
@@ -114,12 +114,15 @@ export const updateProjectAuth = async (req: Request, res: Response) => {
   }
 };
 
+// @desc        Remove user from project
+// @router      DELETE api/organization/:orgId/project/:projectId/remove-user
+// @access      Private auth / isProjectAdmin
 export const removeUserFromProject = async (req: Request, res: Response) => {
   const { email } = req.body;
   const { projectId } = req.params;
 
   const user: UserModelInterface | null = await User.findOne({
-    email,
+    email
   }).select("-password");
 
   if (!user)
@@ -142,7 +145,7 @@ export const removeUserFromProject = async (req: Request, res: Response) => {
     res.status(200).json({
       status: "Success",
       message: `User ${user._id} has been removed from this project`,
-      data: project,
+      data: project
     });
   } catch (err) {
     console.error(err);

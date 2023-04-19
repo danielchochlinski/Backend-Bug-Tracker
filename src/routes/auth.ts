@@ -1,18 +1,16 @@
-import { Router } from "express";
-import {
-  registerUser,
-  loginUser,
-  verifyEmail,
-} from "../controllers/auth/authController";
+import { Router } from 'express';
+import { registerUser, loginUser, verifyEmail } from '../controllers/auth/authController';
 
 // const router = require("express").Router();
 const router = Router();
 
-//api/user
-router.post("/register", registerUser);
+//api/register
+router.post('/register', registerUser);
 
-router.post("/login", loginUser);
+//api/login
+router.post('/login', loginUser);
 
-router.post("/verify-email", verifyEmail);
+//api/verify-email
+router.post('/verify-email', verifyEmail);
 
 export default router;

@@ -1,27 +1,30 @@
-import { Router } from "express";
-import { auth } from "../middleware/authMiddleware";
-import {
-  createProject,
-  deleteProject,
-  getProjects,
-} from "../controllers/projectController";
+import { Router } from 'express';
+import { auth } from '../middleware/authMiddleware';
+import { createProject, deleteProject, getProject } from '../controllers/projectController';
 import {
   addUserToProject,
   removeUserFromProject,
-  updateProjectAuth,
-} from "../controllers/roleProjectControllers/adminProjectControllers";
-import { isAdmin } from "../middleware/adminMiddleware";
+  updateProjectAuth
+} from '../controllers/roleProjectControllers/adminProjectControllers';
+import { isOrgAdmin, isProjectAdmin } from '../middleware/adminMiddleware';
+import { projectAuth } from '../middleware/projectAuthMiddleware';
 // import { auth } from "../middleware/authMiddleware";
 
 const router = Router();
 
-//api/project/
-router.post("/create-project", auth, createProject);
-router.get("/get-projects", auth, getProjects);
-router.delete("/project/:projectId", auth, deleteProject);
+//api/organization/:orgId/project
+router.post('/organization/:orgId/project', auth, isOrgAdmin, createProject);
 
-//admin
-router.post("/admin/add-user/:projectId", auth, addUserToProject);
-router.patch("/admin/update-auth/:projectId", auth, isAdmin, updateProjectAuth);
-router.patch("/admin/remove-user/:projectId", auth, isAdmin, removeUserFromProject);
+//api/organization/:orgId/project
+router.get('/organization/:orgId/project/project/:projectId', auth, projectAuth, getProject);
+router.delete('/project/:projectId', auth, deleteProject);
+
+//api/organization/:orgId/project/:projectId/user
+router.post('/organization/:orgId/project/:projectId/add-user', auth, isProjectAdmin, addUserToProject);
+
+//api/organization/:orgId/project/:projectId/user
+router.patch('/admin/update-auth/:projectId', auth, isProjectAdmin, updateProjectAuth);
+
+//api/organization/:orgId/project/:projectId/remove-user
+router.patch('/admin/remove-user/:projectId', auth, isProjectAdmin, removeUserFromProject);
 export default router;
