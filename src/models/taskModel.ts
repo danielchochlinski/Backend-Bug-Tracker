@@ -14,14 +14,7 @@ const taskSchema = new mongoose.Schema(
       default: 0
     },
     tickets: [{ ticket: { type: Schema.Types.ObjectId, ref: Ticket } }],
-    assigned: [
-      {
-        user: {
-          type: Schema.Types.ObjectId,
-          ref: User
-        }
-      }
-    ]
+   
   },
 
   { timestamps: true }

@@ -24,6 +24,7 @@ export interface ProjectModelInterface {
   users: [ProjectUserInterface];
   tickets: [TicketModelInterface];
   pendingUsers: [PendingUserInterface];
+  _id?: string;
 }
 export interface TicketUserInterface {
   _id: string;
@@ -42,5 +43,4 @@ export interface TicketModelInterface {
 export interface OrganizationModelInterface {
   name: string;
   projects: [ProjectModelInterface];
-  
 }

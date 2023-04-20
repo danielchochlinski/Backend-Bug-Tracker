@@ -1,12 +1,11 @@
-import mongoose, { Schema } from 'mongoose';
-import { TicketModelInterface } from './types';
-const ticketUserSchema = new mongoose.Schema({
-  user: { type: Schema.Types.ObjectId, ref: 'User' }
-});
+import mongoose, { Schema } from "mongoose";
+import { TicketModelInterface } from "./types";
+import { User } from "./userModel";
+
 const ticketSchema = new mongoose.Schema({
   title: {
     type: String,
-    require: [true, 'Ticket must have a name']
+    require: [true, "Ticket must have a name"]
   },
   status: {
     type: Number,
@@ -37,6 +36,16 @@ const ticketSchema = new mongoose.Schema({
     //2 = frontend
     //3 = backend
   },
-  assigned: [ticketUserSchema]
+  assigned: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: User
+      }
+    }
+  ]
 });
-export const Ticket = mongoose.model<TicketModelInterface>('Ticket', ticketSchema);
+export const Ticket = mongoose.model<TicketModelInterface>(
+  "Ticket",
+  ticketSchema
+);

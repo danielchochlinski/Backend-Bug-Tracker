@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Project } from "../models/projectModel";
 import { Organization } from "../models/organizationModel";
+import { ProjectModelInterface } from "../models/types";
 
 export const createProject = async (req: Request, res: Response) => {
   const { name, priority } = req.body;
@@ -33,21 +34,23 @@ export const createProject = async (req: Request, res: Response) => {
 // @router      POST //api/organization/:orgId/projects"
 // @access      Private auth / projectAuth
 export const getProjects = async (req: Request, res: Response) => {
-  const { _id } = req.user;
+  const projects = req.projects;
+  console.log(projects);
   try {
-    const projects = await Project.find({ "users._id": _id }).select("-users");
-    console.log(projects);
     res.send({ status: "Success", data: projects });
   } catch (err) {
     return res.status(500).send({ error: "Server error" });
   }
 };
 
+// @desc        Fetch single project if you are a part of it
+// @router      GET //api/organization/:orgId/project/:projectId"
+// @access      Private auth / projectAuth
 export const getSingleProject = async (req: Request, res: Response) => {
-  const { projectId } = req.params;
+  const project = req.projects;
+  console.log(project);
   try {
-    const projects = await Project.findById(projectId).select("-users");
-    res.send({ status: "Success", data: projects });
+    res.send({ status: "Success", data: project });
   } catch (err) {
     return res.status(500).send({ error: "Server error" });
   }
