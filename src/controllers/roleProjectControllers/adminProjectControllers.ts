@@ -14,12 +14,7 @@ export const addUserToProject = async (req: Request, res: Response) => {
     return;
   }
   const { email, role } = req.body;
-  //    as { email: string; role: number };
-
-  //   const { _id: userId } = req.user;
   const { projectId } = req.params;
-  //   as string;
-
   try {
     const user: UserModelInterface | null = await User.findOne({
       email
@@ -56,9 +51,9 @@ export const addUserToProject = async (req: Request, res: Response) => {
 
     return res.status(200).json({ isInside });
   } catch (err) {
-    return res.status(400).json({
-      status: "Failed",
-      message: "Ups something went wrong"
+    console.error(err);
+    return res.status(500).json({
+      error: "Server Error"
     });
   }
 };

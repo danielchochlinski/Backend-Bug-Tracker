@@ -3,6 +3,11 @@ Simplified jira, called The Bug Tracker, this project is part of my learning roa
 Fronend will be written React/Next.js as well as React Native for mobile.
 
 # Backend-Bug-Tracker
+    
+        to run development
+    -mongo compas
+    -docker compose
+    -postman
 
     -start development
     docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build

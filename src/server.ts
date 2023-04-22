@@ -10,6 +10,7 @@ import projectRoute from "./routes/projects";
 import testRoute from "./routes/testRoute";
 import ticketsRoute from "./routes/tickets";
 import inviteAuthRoute from "./routes/inviteAuth";
+import taskRoute from "./routes/tasks";
 import { connectDB } from "./config/db";
 import organizationRoute from "./routes/organization";
 connectDB();
@@ -20,6 +21,7 @@ app.use("/api", dashboardRoute);
 app.use("/api", projectRoute);
 app.use("/api", ticketsRoute);
 app.use("/api", inviteAuthRoute);
+app.use("/api", taskRoute);
 //testing route dev only
 app.use("/api/test/", testRoute);
 

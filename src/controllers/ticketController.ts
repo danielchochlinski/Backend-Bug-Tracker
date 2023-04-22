@@ -2,58 +2,98 @@ import { Project } from "../models/projectModel";
 import { Ticket } from "../models/ticketModel";
 import { Request, Response } from "express";
 import { TicketModelInterface } from "../models/types";
+import { Task } from "../models/taskModel";
 
-// @desc       Create ticket inside a project
-// @router     POST /api/projects/:projectId/create-ticket
-// @access     Private
-export const createTicket = async (req: Request, res: Response) => {
-  const projectId = req.params.projectId;
-  const { title, status, priority, type } = req.body;
+// @desc       Get single ticket associated with the task
+// @router     GET organization/:orgId/project/:projectId/task/:taskId/ticket/:ticketId
+// @access     Private auth / userAuthProject
+export const getSingleTicket = async (req: Request, res: Response) => {
+  const ticketId = req.params.ticketId;
   try {
-    const project = await Project.findById(projectId);
-    if (!project) {
-      res.status(400).json({ status: "Failed", message: "Projet not found" });
+    // find the task based on taskId
+    const ticket = await Ticket.findById(ticketId);
+    if (!ticket) {
+      return res.status(404).send({ error: "Task not found" });
     }
-    if (project) {
-      const newTicket: TicketModelInterface = new Ticket({
-        title,
-        status,
-        priority,
-        type,
-      }) as unknown as TicketModelInterface;
-
-      await newTicket.save();
-
-      project.tickets.push(newTicket);
-
-      await project.save();
-
-      return res.send({
-        status: "Success",
-        message: "Ticket created",
-        data: newTicket,
-      });
-    }
+    return res.send({
+      status: "Success",
+      message: "Ticket found",
+      data: ticket
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).send({ error: "Server error" });
   }
 };
 
-// @desc       Update ticket inside a project
-// @router     POST /api/projects/:projectId/tickets/:ticketId
-// @access     Private
+// @desc       Get all tickets associated with the task
+// @router     GET organization/:orgId/project/:projectId/task/:taskId/tickets
+// @access     Private auth / userAuthProject
+export const getTickets = async (req: Request, res: Response) => {
+  const taskId = req.params.taskId;
+  try {
+    // find the task based on taskId
+    const task = await Task.findById(taskId);
+    if (!task) {
+      return res.status(404).send({ error: "Task not found" });
+    }
+
+    // get all the task tickets ids
+    const ticketIds = task.tickets;
+
+    // find all the ticket documents based on the ids
+    const tickets = await Ticket.find({ _id: { $in: ticketIds } });
+
+    return res.send({
+      status: "Success",
+      message: "Tickets found",
+      data: tickets
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send({ error: "Server error" });
+  }
+};
+
+// @desc       Create ticket inside a task
+// @router     POST organization/:orgId/project/:projectId/task/:taskId/ticket/:ticketId
+// @access     Private auth / userAuthProject
+export const createTicket = async (req: Request, res: Response) => {
+  const taskId = req.params.taskId;
+  const { title, status, priority, type } = req.body;
+  try {
+    const newTicket = (await Ticket.create({
+      title,
+      status,
+      priority,
+      type
+    })) as unknown as TicketModelInterface;
+    await Task.findByIdAndUpdate(
+      taskId,
+      {
+        $push: { tickets: newTicket._id }
+      },
+      { new: true }
+    );
+
+    return res.send({
+      status: "Success",
+      message: "Ticket created",
+      data: newTicket
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send({ error: "Server error" });
+  }
+};
+
+// @desc       Updates  ticket inside a task
+// @router     PUT organization/:orgId/project/:projectId/task/:taskId/ticket/:ticketId
+// @access     Private auth / userAuthProject
 export const updateTicket = async (req: Request, res: Response) => {
   try {
-    const projectId = req.params.projectId;
     const ticketId = req.params.ticketId;
     const update = req.body;
-
-    const project = await Project.findById(projectId);
-
-    if (!project) {
-      return res.status(404).send({ error: "Project not found" });
-    }
 
     const ticket = await Ticket.findById(ticketId);
 
@@ -62,13 +102,13 @@ export const updateTicket = async (req: Request, res: Response) => {
     }
 
     const updatedTicket = await Ticket.findByIdAndUpdate(ticketId, update, {
-      new: true,
+      new: true
     });
 
     return res.send({
       status: "Success",
       message: "Ticket has been updated",
-      data: updatedTicket,
+      data: updatedTicket
     });
   } catch (err) {
     console.error(err);
@@ -76,28 +116,22 @@ export const updateTicket = async (req: Request, res: Response) => {
   }
 };
 
-// @desc       Delete ticket inside a project
-// @router     DELETE /api/projects/:projectId/tickets/:ticketId
-// @access     Private
+// @desc       Deletes  ticket inside a task
+// @router     DELETE organization/:orgId/project/:projectId/task/:taskId/ticket/:ticketId
+// @access     Private auth / userAuthProject
 export const deleteTicket = async (req: Request, res: Response) => {
+  const taskId = req.params.taskId;
+  const ticketId = req.params.ticketId;
+
   try {
-    const projectId = req.params.projectId;
-    const ticketId = req.params.ticketId;
-
-    const project = await Project.findById(projectId);
-
-    if (!project) {
-      return res.status(404).send({ error: "Project not found" });
-    }
-
     const ticket = await Ticket.findById(ticketId);
 
     if (!ticket) {
       return res.status(404).send({ error: "Ticket not found" });
     }
 
-    await Project.findByIdAndUpdate(
-      projectId,
+    await Task.findByIdAndUpdate(
+      taskId,
       { $pull: { tickets: ticketId } },
       { new: true }
     );
@@ -105,7 +139,7 @@ export const deleteTicket = async (req: Request, res: Response) => {
 
     return res.send({
       status: "Success",
-      message: `Ticket ${ticketId} has been succesfully deleted`,
+      message: `Ticket ${ticketId} has been succesfully deleted`
     });
   } catch (err) {
     console.error(err);

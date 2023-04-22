@@ -7,13 +7,14 @@ export const createOrganization = async (req: Request, res: Response) => {
   try {
     await Organization.create({
       name,
-      users: [{ _id, role: 3, isAdmin: true }],
+      users: [{ _id, role: 3, isAdmin: true }]
     });
     res.send({
       status: "Success",
-      message: "Organization was succesfuly created",
+      message: "Organization was succesfuly created"
     });
-  } catch {
+  } catch (err) {
+    console.error(err);
     return res.status(500).send({ error: "Server error" });
   }
 };
