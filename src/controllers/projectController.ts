@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import { Project } from "../models/projectModel";
 import { Organization } from "../models/organizationModel";
-import { ProjectModelInterface } from "../models/types";
 
+// @desc        Create project 
+// @router      POST //api/organization/:orgId/project"
+// @access      Private auth/ isAdmin
 export const createProject = async (req: Request, res: Response) => {
   const { name, priority } = req.body;
   const { _id } = req.user;
@@ -26,19 +28,21 @@ export const createProject = async (req: Request, res: Response) => {
       .status(200)
       .json({ status: "Success", message: "Project succesfully created" });
   } catch (err) {
+    console.error(err);
     return res.status(500).send({ error: "Server error" });
   }
 };
 
 // @desc        Get all projects available to a user
 // @router      POST //api/organization/:orgId/projects"
-// @access      Private auth / projectAuth
+// @access      Private auth / userInProject
 export const getProjects = async (req: Request, res: Response) => {
   const projects = req.projects;
   console.log(projects);
   try {
     res.send({ status: "Success", data: projects });
   } catch (err) {
+    console.error(err);
     return res.status(500).send({ error: "Server error" });
   }
 };
@@ -93,6 +97,7 @@ export const deleteProject = async (req: Request, res: Response) => {
       res.status(400).json({ status: "Failed", message: "No projects found" });
     }
   } catch (err) {
+    console.error(err);
     return res.status(500).send({ error: "Server error" });
   }
 };

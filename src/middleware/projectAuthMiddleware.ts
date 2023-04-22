@@ -6,6 +6,8 @@ interface User {
   isAdmin: boolean;
   role: number;
 }
+
+// returns projects if user is is part of it
 export const checkUserProjects = async (
   req: Request,
   res: Response,
@@ -35,6 +37,7 @@ export const checkUserProjects = async (
   }
 };
 
+//checks project determins if admin or not and returns one single project
 export const checkUserSingleProject = async (
   req: Request,
   res: Response,
@@ -103,13 +106,12 @@ export const userAuthProject = async (
     })
       .lean()
       .select("-users");
-
     if (projects?.length === 0) {
       return res
         .status(401)
         .json({ status: "Failed", message: "User not authorized" });
     }
-    req.projectTickets = projects.tickets;
+    req.projectTasks = projects[0].tasks;
     next();
   } catch (err) {
     console.error(err);

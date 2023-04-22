@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from "express";
 // interface TokenType {
 //   id: string;
 // }
-export const auth = async (req: any, res: Response, next: NextFunction) => {
+export const auth = async (req: Request, res: Response, next: NextFunction) => {
   let token;
 
   if (req.headers && req.headers.authorization?.startsWith("Bearer")) {
@@ -22,7 +22,7 @@ export const auth = async (req: any, res: Response, next: NextFunction) => {
       next();
     } catch (err) {
       return res.status(401).json({
-        status: "failed",
+        status: "failed"
       });
     }
   }

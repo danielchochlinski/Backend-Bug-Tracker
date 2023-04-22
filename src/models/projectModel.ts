@@ -2,22 +2,8 @@ import mongoose from "mongoose";
 import { ProjectModelInterface, ProjectUserInterface } from "./types";
 import Schema = mongoose.Schema;
 import { User } from "./userModel";
-import { Ticket } from "./ticketModel";
 import { Task } from "./taskModel";
-// const userProjectSchema = new mongoose.Schema({
-//   admin: {
-//     type: Boolean,
-//     default: false,
-//   },
-//   role: {
-//     type: Number,
-//     default: 0,
-//   },
-//   user: {
-//     type: Schema.Types.ObjectId,
-//     ref: User,
-//   },
-// });
+
 
 const projectSchema = new mongoose.Schema(
   {
@@ -29,7 +15,7 @@ const projectSchema = new mongoose.Schema(
       type: Number,
       default: 0
     },
-    tasks: [{ task: { type: Schema.Types.ObjectId, ref: Task } }],
+    tasks: [{ type: Schema.Types.ObjectId, ref: Task }],
     users: [
       {
         user: {
@@ -59,7 +45,10 @@ const projectSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Project = mongoose.model<ProjectModelInterface>("Project", projectSchema);
+export const Project = mongoose.model<ProjectModelInterface>(
+  "Project",
+  projectSchema
+);
 // export const UserProject = mongoose.model<ProjectUserInterface>(
 //   "ProjectUser",
 //   userProjectSchema

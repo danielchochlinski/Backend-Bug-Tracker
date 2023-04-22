@@ -21,7 +21,7 @@ declare global {
       user?: User;
       params?: string;
       projects?: ProjectModelInterface;
-      projectTickets?: [string];
+      projectTasks?: [string];
     }
   }
 }

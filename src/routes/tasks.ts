@@ -7,10 +7,10 @@ const router = Router();
 //api/organization/:orgId/project/:projectId/task/:taskId
 router.get("/organization/:orgId/project/:projectId/task/:taskId", auth, userAuthProject, getSingleTask)
 
-router.get("/organization/:orgId/project/:projectId/task", auth, userAuthProject, getTasks)
+router.get("/organization/:orgId/project/:projectId/tasks", auth, userAuthProject, getTasks)
 router.post("/organization/:orgId/project/:projectId/task", auth,userAuthProject, createTask )
 router.delete("/organization/:orgId/project/:projectId/task/:taskId", auth, userAuthProject, deleteTask)
-router.patch("/organization/:orgId/project/:projectId/task/:taskId", auth,userAuthProject, updateTask )
+router.put("/organization/:orgId/project/:projectId/task/:taskId", auth,userAuthProject, updateTask )
 
 
 export default router;

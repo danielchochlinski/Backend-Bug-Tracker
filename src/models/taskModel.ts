@@ -5,7 +5,7 @@ import { Ticket } from "./ticketModel";
 
 const taskSchema = new mongoose.Schema(
   {
-    name: {
+    title: {
       type: String,
       required: [true, "Project must have a name"]
     },
@@ -13,8 +13,7 @@ const taskSchema = new mongoose.Schema(
       type: Number,
       default: 0
     },
-    tickets: [{ ticket: { type: Schema.Types.ObjectId, ref: Ticket } }],
-   
+    tickets: [{ type: Schema.Types.ObjectId, ref: Ticket }]
   },
 
   { timestamps: true }
