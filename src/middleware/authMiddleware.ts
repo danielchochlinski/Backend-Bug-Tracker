@@ -1,11 +1,12 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/userModel";
 import { Request, Response, NextFunction } from "express";
-// import type { JwtPayload } from "jsonwebtoken";
 
-// interface TokenType {
-//   id: string;
-// }
+interface TokenPayload {
+  id: string;
+  // add any other properties expected in the token payload
+}
+
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   let token;
 
@@ -13,10 +14,10 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     try {
       token = req.headers.authorization.split(" ")[1];
 
-      const decodedToken: any = jwt.verify(
+      const decodedToken = jwt.verify(
         token,
         process.env.ACCESS_TOKEN_SECRET || ""
-      );
+      ) as TokenPayload;
       req.user = await User.findById(decodedToken.id);
 
       next();
@@ -26,5 +27,8 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
       });
     }
   }
-  if (!token) return res.status(401).json({ status: "Not authorized" });
+
+  if (!token) {
+    return res.status(401).json({ status: "Not authorized" });
+  }
 };

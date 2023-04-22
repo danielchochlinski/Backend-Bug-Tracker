@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { Project } from "../models/projectModel";
-import { ProjectModelInterface } from "../models/types";
 interface User {
   _id: string;
   isAdmin: boolean;
