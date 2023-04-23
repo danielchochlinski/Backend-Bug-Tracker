@@ -19,4 +19,6 @@ Fronend will be written React/Next.js as well as React Native for mobile.
 # Flow design
 <img width="673" alt="Flow" src="https://user-images.githubusercontent.com/89450753/232524291-76b92923-033b-419e-aa9a-870d3cc4c8ee.png">
 
-
+# Extra Resources
+    -Figma
+    https://www.figma.com/file/3RtImM7oUnMmrGPYvCQloc/Bug-Tracker-Flow?node-id=0-1&t=nLdoT7cPNK0jI6Hj-0
