@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import { TicketModelInterface } from "./types";
 import { User } from "./userModel";
+import { Comment } from "./commentModel";
 
 const ticketSchema = new mongoose.Schema(
   {
@@ -38,6 +39,7 @@ const ticketSchema = new mongoose.Schema(
       //3 = backend
     },
     dueDate: { type: Date },
+    comments: [{ type: Schema.Types.ObjectId, ref: Comment }],
 
     assigned: [
       {

@@ -3,7 +3,7 @@ import { ProjectModelInterface, ProjectUserInterface } from "./types";
 import Schema = mongoose.Schema;
 import { User } from "./userModel";
 import { Task } from "./taskModel";
-
+import { Comment } from "./commentModel";
 
 const projectSchema = new mongoose.Schema(
   {
@@ -32,6 +32,7 @@ const projectSchema = new mongoose.Schema(
         }
       }
     ],
+    comments: [{ type: Schema.Types.ObjectId, ref: Comment }],
     pendingUsers: [
       {
         email: {

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Project } from "../models/projectModel";
 import { Organization } from "../models/organizationModel";
 
-// @desc        Create project 
+// @desc        Create project
 // @router      POST //api/organization/:orgId/project"
 // @access      Private auth/ isAdmin
 export const createProject = async (req: Request, res: Response) => {

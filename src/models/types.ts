@@ -44,3 +44,10 @@ export interface OrganizationModelInterface {
   name: string;
   projects: [ProjectModelInterface];
 }
+export interface CommentModelInterface {
+  _id: string;
+  title: string;
+  comment: string;
+  authorId: string;
+  // doucment: any;
+}
