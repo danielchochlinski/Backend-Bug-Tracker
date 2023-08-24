@@ -21,4 +21,4 @@ Fronend will be written React/Next.js as well as React Native for mobile.
 
 # Extra Resources
     -Figma
-    https://www.figma.com/file/3RtImM7oUnMmrGPYvCQloc/Bug-Tracker-Flow?node-id=0-1&t=nLdoT7cPNK0jI6Hj-0
+https://www.figma.com/file/9r8VTFvKbmWMbOqVHF9WgD/JOY-UI-DESIGN-PLAYGROUND?type=design&node-id=286-4207&mode=design&t=uK3CuW357YyVtXv9-0
